@@ -1,0 +1,25 @@
+{
+  "name": "sc2-achievements",
+  "version": "1.0.0",
+  "description": "Achievement manager for SCII",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "scii",
+    "sc2",
+    "starcraft",
+    "lotv",
+    "hots",
+    "wol"
+  ],
+  "author": "Michael Beaton <beatonma@gmail.com> (https://beatonma.org)",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "path": "^0.12.7",
+    "request": "^2.85.0"
+  }
+}
