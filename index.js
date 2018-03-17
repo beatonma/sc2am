@@ -2,6 +2,9 @@ const http = require('http');       // HTTP actions
 const fs = require('fs');           // Filesystem actions
 const path = require('path');       // Path actions
 const request = require('request');
+
+const sc2 = require('./bnet-api-util.js');
+console.log(sc2.ACHIEVEMENT_CATEGORIES);
 // const winston = require('winston'); // Logging
 
 // API constants
@@ -18,6 +21,7 @@ const BASE_URL = 'http://localhost:' + PORT;
 const DATA_DIR = './data/';
 const ASSETS_DIR = './assets';
 const ASSETS = [
+    '/css/achievements.css',
     '/favicon.ico'
 ];
 
@@ -116,7 +120,7 @@ function buildHtmlHeader(achievement_points) {
     let html = '';
     for (let id in categoryPoints) {
         html += template.formatUnicorn({
-            category: id,
+            category: sc2.ACHIEVEMENT_CATEGORIES[id],
             points: categoryPoints[id],
         });
     }
