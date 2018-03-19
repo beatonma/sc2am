@@ -1,37 +1,30 @@
-const http = require('http');       // HTTP actions
-const fs = require('fs');           // Filesystem actions
-const path = require('path');       // Path actions
-const request = require('request');
+// const http = require('http');       // HTTP actions
+// const fs = require('fs');           // Filesystem actions
+// const path = require('path');       // Path actions
+// const request = require('request');
 
-const sc2 = require('./bnet-api-util.js');
-console.log(sc2.ACHIEVEMENT_CATEGORIES);
+const web = require('./web')
+// const templates = web.templates;
+// const sc2 = web.bnet.api_util;
 // const winston = require('winston'); // Logging
 
 // API constants
-const ACHIEVEMENTS_URL = 'https://{server}.api.battle.net/sc2/data/achievements?locale={locale}&apikey={api_key}';
-const PROFILE_URL = 'https://{server}.api.battle.net/sc2/profile/{user_id}/{region}/{username}/?locale={locale}&apikey={api_key}';
+// const ACHIEVEMENTS_URL = 'https://{server}.api.battle.net/sc2/data/achievements?locale={locale}&apikey={api_key}';
+// const PROFILE_URL = 'https://{server}.api.battle.net/sc2/profile/{user_id}/{region}/{username}/?locale={locale}&apikey={api_key}';
 
 // Local server constants
-const CONFIG = require('./config.json');
-const PROFILE_CACHE = './profile.json';
-const ACHIEVEMENTS_CACHE = './achievements.json';
+// const CONFIG = require('./config.json');
+// const PROFILE_CACHE = './web/data/profile.json';
+// const ACHIEVEMENTS_CACHE = './web/data/achievements.json';
 
-const PORT = 9876;
-const BASE_URL = 'http://localhost:' + PORT;
-const DATA_DIR = './data/';
-const ASSETS_DIR = './assets';
-const ASSETS = [
-    '/css/achievements.css',
-    '/favicon.ico'
-];
-
-const TEMPLATES = {
-    'base': fs.readFileSync('./templates/base.html', 'utf-8'),
-    'head': fs.readFileSync('./templates/head.html', 'utf-8'),
-    'header': fs.readFileSync('./templates/header.html', 'utf-8'),
-    'header_points': fs.readFileSync('./templates/header_points.html', 'utf-8'),
-    'achievement': fs.readFileSync('./templates/achievement.html', 'utf-8'),
-};
+// const PORT = 9876;
+// const BASE_URL = 'http://localhost:' + PORT;
+// const DATA_DIR = './web/data/';
+// const ASSETS_DIR = './web/assets';
+// const ASSETS = [
+//     '/css/achievements.css',
+//     '/favicon.ico'
+// ];
 
 
 String.prototype.formatUnicorn = String.prototype.formatUnicorn ||
@@ -53,33 +46,33 @@ function() {
     return str;
 };
 
-let ACHIEVEMENTS = {};
+// let ACHIEVEMENTS = {};
 
-const MIMETYPES = {
-    'ico': 'image/x-icon',
-    'html': 'text/html',
-    'js': 'text/javascript',
-    'json': 'application/json',
-    'css': 'text/css',
-    'png': 'image/png',
-    'jpg': 'image/jpeg',
-    'mp3': 'audio/mpeg',
-    'svg': 'image/svg+xml',
-    'pdf': 'application/pdf',
-};
+// const MIMETYPES = {
+//     'ico': 'image/x-icon',
+//     'html': 'text/html',
+//     'js': 'text/javascript',
+//     'json': 'application/json',
+//     'css': 'text/css',
+//     'png': 'image/png',
+//     'jpg': 'image/jpeg',
+//     'mp3': 'audio/mpeg',
+//     'svg': 'image/svg+xml',
+//     'pdf': 'application/pdf',
+// };
 
-const server = http.createServer((request, response) => {
-    request.on('error', err => {
+// const server = http.createServer((request, response) => {
+//     request.on('error', err => {
 
-    }).on('data', chunk => {
+//     }).on('data', chunk => {
 
-    }).on('end', () => {
-        response.on('error', err => {
-            error(err);
-        });
-        serve(request, response);
-    })
-}).listen(PORT);
+//     }).on('end', () => {
+//         response.on('error', err => {
+//             error(err);
+//         });
+//         serve(request, response);
+//     })
+// }).listen(PORT);
 
 function serve(request, response) {
     const url = request.url;
@@ -101,11 +94,11 @@ function serveMainPage(request, response) {
 
 function buildUserPage(profile) {
     updateAchievementStatus(profile);
-    const htmlHead = TEMPLATES.head;
+    const htmlHead = templates.head;
     const htmlHeader = buildHtmlHeader(profile.achievements.points);
     const htmlAchievements = buildHtmlAchievements();
 
-    return TEMPLATES.base.formatUnicorn({
+    return templates.base.formatUnicorn({
         head: htmlHead,
         header: htmlHeader,
         achievements: htmlAchievements,
@@ -115,7 +108,7 @@ function buildUserPage(profile) {
 }
 
 function buildHtmlHeader(achievement_points) {
-    const template = TEMPLATES.header_points;
+    const template = templates.header_points;
     const categoryPoints = achievement_points.categoryPoints;
     let html = '';
     for (let id in categoryPoints) {
@@ -125,14 +118,14 @@ function buildHtmlHeader(achievement_points) {
         });
     }
 
-    return TEMPLATES.header.formatUnicorn({
+    return templates.header.formatUnicorn({
         total: achievement_points.totalPoints,
         points: html
     });
 }
 
 function buildHtmlAchievements() {
-    const template = TEMPLATES.achievement;
+    const template = templates.achievement;
 
     let html = '';
     for (let a in ACHIEVEMENTS) {
@@ -265,7 +258,7 @@ function serveStatic(url, response) {
     });
 }
 
-loadAchievements((content) => {
-    ACHIEVEMENTS = content;
-    console.log('Server ready.');
-});
+// loadAchievements((content) => {
+//     ACHIEVEMENTS = content;
+//     console.log('Server ready.');
+// });
