@@ -1,15 +1,18 @@
 const fs = require('fs');
-const path = require('path');       // Path actions
+const path = require('path');
+const url = require('url');
 const config = require('../config');
 const sc2 = require('./bnet').api;
 const templates = require('./templates');
+const _ = require('./translation').translate;
 
 const ASSETS_DIR = path.join(__dirname, './assets');
 const ASSETS = [
     '/css/base.css',
     '/css/achievements.css',
-    '/js/bnet-parse.js',
-    '/favicon.ico'
+    '/js/main.js',
+    '/js/load-profile.js',
+    '/favicon.ico',
 ];
 
 const MIMETYPES = {
@@ -26,16 +29,20 @@ const MIMETYPES = {
 };
 
 function serve(request, response) {
-    const url = request.url;
-    console.log('request: "' + url + '"');
+    const u = request.url;
+    console.log('request: "' + u + '"');
 
-    if (ASSETS.indexOf(url) >=  0) {
-        serveStatic(url, response);
+    if (ASSETS.indexOf(u) >=  0) {
+        serveStatic(u, response);
     }
-    else if (url === '/') {
+    else if (u === '/') {
         serveMainPage(request, response);
     }
-    else if (url === '/debug' && config.debug) {
+    else if (u.startsWith('/api/') && request.method == 'POST') {
+        request.url = u.replace(/^\/api/, '');
+        serveApi(request, response);
+    }
+    else if (u === '/debug' && config.debug) {
         serveDebug(request, response);
     }
     else {
@@ -43,33 +50,64 @@ function serve(request, response) {
     }
 }
 
-function serveMainPage(request, response) {
-    response.writeHead(200, {'Content-Type': 'text/html'});
-    response.end(templates.main.base);
-
+function serveApi(request, response) {
+    const u = request.url;
+    if (u.startsWith('/profile')) {
+        serveApiProfile(request, response);
+    }
+    else {
+        console.log('Unknown url: ' + u);
+        response.writeHead(404);
+        response.end();
+    }
 }
 
+function serveApiProfile(request, response) {
+    const params = request.post;
+
+    sc2.getUserProfile(params, profile => {
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify(profile));
+    });
+}
+
+function serveMainPage(request, response) {
+    serveHtml(response, templates.main.base);
+}
+
+/*
+ * Display a basic page for the user. Full profile data is loaded
+ * asynchronously by the client.
+ */
 function serveUserPage(request, response) {
-    const url = request.url;
+    const u = request.url;
     // e.g. /eu/en/2784180/1/fallofmath
-    const m = /\/(\w+)\/(\w+)\/(\d+)\/(\d+)\/(.*$)/g.exec(url);
+    const m = /\/(\w+)\/(\w+)\/(\d+)\/(\d+)\/(.*$)/g.exec(u);
     if (m) {
+        const server = m[1];
+        const language = m[2];
+        const locale = sc2.lookup(server)[language] || config.locale;
         const params = {
-            server: m[1],
-            locale: config.locale,
+            server: server,
+            locale: locale,
             user_id: m[3],
             region: m[4],
             username: m[5]
         }
-        sc2.getUserProfile(params, profile => {
-            response.writeHead(200, {'Content-Type': 'text/html'});
-            response.end(templates.profile.build(profile));
-        });
+        serveHtml(response, templates.profile.stub(params));
     }
     else {
         response.writeHead(302, {Location: '/'});
         response.end();
     }
+}
+
+/*
+ * Send a localised HTML response
+ */
+function serveHtml(response, content, locale) {
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.end(_(content, locale));
 }
 
 function serveDebug(request, response) {
@@ -80,8 +118,7 @@ function serveDebug(request, response) {
                 console.log(err);
             }
             const profile = JSON.parse(data);
-            response.writeHead(200, {'Content-Type': 'text/html'});
-            response.end(templates.profile.build(profile));
+            serveHtml(response, templates.profile.build(profile));
         });
     }
     else {

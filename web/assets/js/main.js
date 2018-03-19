@@ -5,9 +5,9 @@ function parseProfileUrl() {
 
     if (m) {
         window.location.href = '/' + m.slice(1).join('/');
+        document.getElementById('form_error').classList.add('hidden');
         return false;
     }
-    // TODO show error message
-    console.log('NOPE');
+    document.getElementById('form_error').classList.remove('hidden');
     return false;
 }

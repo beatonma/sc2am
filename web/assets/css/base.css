@@ -3,3 +3,7 @@ body {
     color: #B6FFFF;
     font-family: sans-serif;
 }
+
+.hidden {
+    display: none;
+}
