@@ -1,6 +1,14 @@
+:root {
+    --background-primary: #00111E;
+    --background-secondary: #001631;
+    --text-primary: #B6FFFF;
+    --text-secondary: #00B5FB;
+    --accent: #00FB84;
+}
+
 body {
-    background: #00111E;
-    color: #B6FFFF;
+    background: var(--background-primary);
+    color: var(--text-primary);
     font-family: sans-serif;
 }
 
