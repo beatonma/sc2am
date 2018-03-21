@@ -39,6 +39,7 @@ i18n.configure({
 initCacheDirs();
 
 const server = http.createServer((request, response) => {
+    i18n.init(request, response);
     let data = '';
     request.on('error', err => {
 
