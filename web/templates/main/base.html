@@ -4,17 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#111111">
+
 <link rel="stylesheet" type="text/css" href="/css/base.css"/>
-<title>SCII Achievements</title>
-<script type="text/javascript" src="/js/bnet-parse.js"></script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+<title>_(SCII Achievements)</title>
 </head>
 <body>
-    <div id="profile">
-        Enter the URL to your SCII battle.net profile:
-        <form id="profile_form" onsubmit="return parseProfileUrl()">
-            <input id="profile_url" type="text" name="profile_url"/>
-            <button type="submit">Show achievements</button>
-        </form>
-    </div>
+    <header>
+        <div id="search">
+            _(Enter the URL to your SCII battle.net profile):
+            <form id="search_form" onsubmit="return parseProfileUrl()">
+                <input id="profile_url" type="text" name="profile_url"/>
+                <button type="submit">_(Show achievements)</button>
+            </form>
+            <div id="form_error" class="hidden">_(Unable to parse URL - please try again)</div>
+        </div>
+    </header>
 </body>
 </html>
