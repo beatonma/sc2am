@@ -9,10 +9,12 @@ const _ = require('./translation').translate;
 const ASSETS_DIR = path.join(__dirname, './assets');
 const ASSETS = [
     '/css/base.css',
-    '/css/achievements.css',
+    '/css/profile.css',
     '/js/main.js',
-    '/js/load-profile.js',
+    '/js/profile.js',
     '/favicon.ico',
+    '/example.html',
+    '/example-small.html',
 ];
 
 const MIMETYPES = {
@@ -157,41 +159,6 @@ function serveStatic(url, response) {
         }
     });
 }
-
-// function getUserProfile(callback) {
-//     if (config.debug && fs.existsSync(PROFILE_CACHE)) {
-//         fs.readFile(PROFILE_CACHE, 'utf-8', (err, data) => {
-//             const j = JSON.parse(data);
-//             const cacheAge = Date.now() - j.updated;
-//             const refreshRate = CONFIG.refresh_rate / 1000;
-//             if (cacheAge > refreshRate) {
-//                 console.log('Cache is old (' + cacheAge + ' > ' + refreshRate + ') - refreshing data...');
-//                 getRemoteUserProfile(callback);
-//             }
-//             else {
-//                 console.log('Using cached profile data');
-//                 j.cached = true;
-//                 callback(j);
-//             }
-//         });
-//     }
-//     else {
-//         sc2.getUserProfile(callback);
-//     }
-// }
-
-// function getAchievements(callback) {
-//     if (fs.existsSync(ACHIEVEMENTS_CACHE)) {
-//         fs.readFile(ACHIEVEMENTS_CACHE, 'utf-8', (err, data) => {
-//             const j = JSON.parse(data);
-//             console.log('Achievement definitions loaded from cache.');
-//             callback(j);
-//         })
-//     }
-//     else {
-//         sc2.getAchievementDefinitions(callback);
-//     }
-// }
 
 module.exports = {
     serve: serve,
