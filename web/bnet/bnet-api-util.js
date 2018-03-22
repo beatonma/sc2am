@@ -147,20 +147,27 @@ function cleanProfileData(params, profile) {
                 delete achievements[c.achievementId];
             }
 
-            // Look up achievement codes and get the definition
-            len = categories.length;
-            for (let i = 0; i < len; i++) {
-                const c = categories[i];
-                if (c.achievements) {
-                    const achs = c.achievements;
-                    const achCount = achs.length;
-                    for (let j = 0; j < achCount; j++) {
-                        const k = achs[j];
-                        if (k in achievements) {
-                            achs[j] = achievements[k];
-                        }
+            // Replace achievement ID list with the full achievement objects
+            for (let k in categories) {
+                const achValues = [];
+                const c = categories[k];
+                const achs = c.achievements;
+                const achsCount = achs.length;
+                for (let i = 0; i < achsCount; i++) {
+                    const id = achs[i];
+                    if (id in achievements) {
+                        achValues.push(achievements[id]);
                     }
                 }
+
+                if (achValues.length == 0) {
+                    // All achievements in this category have been completed
+                    delete categories[k];
+                }
+                else {
+                    c.achievements = achValues;
+                }
+
             }
             profile.achievements.achievements = categories;
 
@@ -193,6 +200,9 @@ function getAchievementDefinitions(server, locale, callback) {
         });
 }
 
+/*
+ * Read the cached achievements file for this locale
+ */
 function readAchievements(locale) {
     console.log('readAchievements');
     return new Promise((resolve, reject) => {
@@ -214,6 +224,9 @@ function readAchievements(locale) {
     });
 }
 
+/*
+ * Read the cached categories file for this locale
+ */
 function readCategories(locale) {
     console.log('readCategories');
     return new Promise((resolve, reject) => {
@@ -236,50 +249,55 @@ function readCategories(locale) {
 }
 
 /*
- * Update definitions cache from battle.net
+ * Update definitions cache from battle.net API
  */
 function updateAchievementDefinitions(server, locale, callback) {
-    const url = ACHIEVEMENTS_URL.formatUnicorn({
-        api_key: config.api_key,
-        locale: locale,
-        server: server,
-    });
-    console.log('Updating achievement definitions: ' + url);
-    request.get(url, (err, response, body) => {
-        const j = JSON.parse(body);
+    return new Promise((resolve, reject) => {
+        const url = ACHIEVEMENTS_URL.formatUnicorn({
+            api_key: config.api_key,
+            locale: locale,
+            server: server,
+        });
+        console.log('Updating achievement definitions: ' + url);
+        request.get(url, (err, response, body) => {
+            const j = JSON.parse(body);
 
-        const a = buildAchievements(j.achievements)
-            .then(data => {
-                return new Promise((resolve, reject) => {
-                    fs.writeFile(
-                        getCacheFile(locale, 'achievements.json'),
-                        JSON.stringify(data), err => {
-                            if (err) reject(err);
-                            else resolve(data)
+            const a = buildAchievements(j.achievements)
+                .then(data => {
+                    return new Promise((resolve, reject) => {
+                        fs.writeFile(
+                            getCacheFile(locale, 'achievements.json'),
+                            JSON.stringify(data), err => {
+                                if (err) reject(err);
+                                else resolve(data)
+                        });
                     });
                 });
-            });
 
-        const c = buildCategories(j)
-            .then(data => {
-                return new Promise((resolve, reject) => {
-                    fs.writeFile(
-                        getCacheFile(locale, 'categories.json'),
-                        JSON.stringify(data), err => {
-                            if (err) reject(err);
-                            else resolve(data);
-                    });
-                })
-            });
+            const c = buildCategories(j)
+                .then(data => {
+                    return new Promise((resolve, reject) => {
+                        fs.writeFile(
+                            getCacheFile(locale, 'categories.json'),
+                            JSON.stringify(data), err => {
+                                if (err) reject(err);
+                                else resolve(data);
+                        });
+                    })
+                });
 
-        return Promise.all(a, c);
-    })
+            resolve(Promise.all([a, c]));
+        });
+    });
 }
 
 /**
- * Add 
+ * Constructs a dictionary of categories using the categoryId as the key.
+ * Each category entry holds a list of achievementIds for that category,
+ * and the total number of points available for completing those achievements.
+ * 
  * @param  {object} data Data returned from API call to ACHIEVEMENTS_URL
- * @return {object}      Categorised achievements list
+ * @return {Promise}      Categorised achievements list
  */
 function buildCategories(data) {
     console.log('buildCategories');
@@ -287,27 +305,14 @@ function buildCategories(data) {
         const achievements = data.achievements;
         const categories = data.categories;
 
-        // Build a category dictionary of achievements
-        // {'categoryId': [achievementIds]}
-        const categorizedAchievements = {}
-        const lenA = achievements.length;
-        for (let i = 0; i < lenA; i++) {
-            const a = achievements[i];
-            const catID = a.categoryId;
-            if (catID in categorizedAchievements) {
-                categorizedAchievements[catID].push(a.achievementId);
-            }
-            else {
-                categorizedAchievements[catID] = [a.achievementId];
-            }
-        }
-
-        // Flatten categories list, moving any nested objects to the
-        // top-level list
+        // Flatten categories list and convert to dictionary using categoryId
+        // as the key
         const lenC = categories.length;
+        const catDictionary = {};
         for (let i = 0; i < lenC; i++) {
             const c = categories[i];
-            const id = c.categoryId;
+            const catID = c.categoryId;
+            delete c.categoryId;
 
             if (c.children) {
                 const children = c.children;
@@ -315,25 +320,37 @@ function buildCategories(data) {
 
                 for (let j = 0; j < childCount; j++) {
                     const ch = children[j];
-                    // Store id of parent so we can reconstruct later
-                    ch.parent = id;
-                    categories.push(ch);
+                    ch.parent = catID;
+                    const chCatID = ch.categoryId;
+                    delete ch.categoryId;
+                    ch.achievements = [];
+                    ch.points = 0;
+
+                    catDictionary[chCatID] = ch;
                 }
             }
             delete c.children;
+
+            c.achievements = [];
+            c.points = 0;
+            catDictionary[catID] = c;
         }
 
-        // Assign achievements to their category
-        const lenCFlat = categories.length;
-        for (let i = 0; i < lenCFlat; i++) {
-            const c = categories[i];
-            const id = c.categoryId;
-            if (id in categorizedAchievements) {
-                c.achievements = categorizedAchievements[id];
+        // Assign achievement IDs to their category
+        const lenA = achievements.length;
+        for (let i = 0; i < lenA; i++) {
+            const a = achievements[i];
+            const catID = a.categoryId;
+            try {
+                catDictionary[catID].achievements.push(a.achievementId);
+                catDictionary[catID].points += a.points;
+            }
+            catch (e) {
+                console.error('Unable to assign achievement ' + a.achievementId + ' to category ' + catID);
             }
         }
 
-        resolve(categories);
+        resolve(catDictionary);
     });
 }
 
@@ -350,7 +367,6 @@ function buildAchievements(achievements) {
             const a = achievements[i];
             const aid = a.achievementId;
             delete a.icon;
-            delete a.achievementId;
             output[aid] = a;
         }
 
@@ -368,6 +384,5 @@ module.exports = {
 if (config.debug) {
     module.exports['buildAchievements'] = buildAchievements;
     module.exports['buildCategories'] = buildCategories;
-    // module.exports['buildDefinitions'] = buildDefinitions;
     module.exports['getAchievementDefinitions'] = getAchievementDefinitions;
 }
