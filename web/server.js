@@ -1,21 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-const url = require('url');
 const config = require('../config');
 const sc2 = require('./bnet').api;
 const templates = require('./templates');
 const _ = require('./translation').translate;
 
 const ASSETS_DIR = path.join(__dirname, './assets');
-const ASSETS = [
-    '/css/base.css',
-    '/css/profile.css',
-    '/js/main.js',
-    '/js/profile.js',
-    '/favicon.ico',
-    '/example.html',
-    '/example-small.html',
-];
 
 const MIMETYPES = {
     'ico': 'image/x-icon',
@@ -31,20 +21,20 @@ const MIMETYPES = {
 };
 
 function serve(request, response) {
-    const u = request.url;
-    console.log('request: "' + u + '"');
+    const url = request.url;
+    console.log('request: "' + url + '"');
 
-    if (ASSETS.indexOf(u) >=  0) {
-        serveStatic(u, response);
+    if (url.startsWith('/static/')) {
+        serveStatic(url.replace('/static', ''), response);
     }
-    else if (u === '/') {
+    else if (url === '/') {
         serveMainPage(request, response);
     }
-    else if (u.startsWith('/api/') && request.method == 'POST') {
-        request.url = u.replace(/^\/api/, '');
+    else if (url.startsWith('/api/') && request.method == 'POST') {
+        request.url = url.replace(/^\/api/, '');
         serveApi(request, response);
     }
-    else if (u === '/debug' && config.debug) {
+    else if (url === '/debug' && config.debug) {
         serveDebug(request, response);
     }
     else {
@@ -53,12 +43,12 @@ function serve(request, response) {
 }
 
 function serveApi(request, response) {
-    const u = request.url;
-    if (u.startsWith('/profile')) {
+    const url = request.url;
+    if (url.startsWith('/profile')) {
         serveApiProfile(request, response);
     }
     else {
-        console.log('Unknown url: ' + u);
+        console.log('Unknown url: ' + url);
         response.writeHead(404);
         response.end();
     }
@@ -67,10 +57,17 @@ function serveApi(request, response) {
 function serveApiProfile(request, response) {
     const params = request.post;
 
-    sc2.getUserProfile(params, profile => {
-        response.writeHead(200, {'Content-Type': 'application/json'});
-        response.end(JSON.stringify(profile));
-    });
+    sc2.getUserProfile(params)
+        .then(profile => {
+            console.log('_______returning profile!');
+            response.writeHead(200, {'Content-Type': 'application/json'});
+            response.end(JSON.stringify(profile));
+        })
+        .catch(err => {
+            console.error('getUserProfile failed: ' + err);
+            response.statusCode = 500;
+            response.end();
+        });
 }
 
 function serveMainPage(request, response) {
@@ -79,12 +76,12 @@ function serveMainPage(request, response) {
 
 /*
  * Display a basic page for the user. Full profile data is loaded
- * asynchronously by the client.
+ * asynchronously.
  */
 function serveUserPage(request, response) {
-    const u = request.url;
+    const url = request.url;
     // e.g. /eu/en/2784180/1/fallofmath
-    const m = /\/(\w+)\/(\w+)\/(\d+)\/(\d+)\/(.*$)/g.exec(u);
+    const m = /\/(\w+)\/(\w+)\/(\d+)\/(\d+)\/(.*$)/g.exec(url);
     if (m) {
         const server = m[1];
         const language = m[2];
