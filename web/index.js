@@ -6,7 +6,7 @@ const path = require('path');
 const app = require('./server.js');
 const i18n = require('i18n');
 
-const locales = [
+const LOCALES = [
     // EU
     'de_DE',
     'en_GB',
@@ -30,7 +30,7 @@ const locales = [
 ];
 
 i18n.configure({
-    locales: locales,
+    locales: LOCALES,
     directory: __dirname + '/locales',
     defaultLocale: 'en_GB',
     extension: '.json',
@@ -71,9 +71,9 @@ function initCacheDirs() {
     catch (err) {
         if (err.code !== 'EEXIST') throw err;
     }
-    for (let i = 0; i < locales.length; i++) {
+    for (let i = 0; i < LOCALES.length; i++) {
         try {
-            fs.mkdirSync(path.join('./data', locales[i]));
+            fs.mkdirSync(path.join('./data', LOCALES[i]));
         }
         catch (err) {
             if (err.code !== 'EEXIST') throw err;
