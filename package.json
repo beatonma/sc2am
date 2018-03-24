@@ -30,6 +30,7 @@
     "gulp-babel-minify": "^0.3.0",
     "gulp-cssnano": "^2.1.2",
     "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
     "mocha": "^5.0.4"
   }
 }
