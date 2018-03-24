@@ -86,11 +86,16 @@ function parseProfileUrl(url) {
     const m = regex.exec(url);
     return {
         username: m[5],
-        id: m[3],
+        user_id: m[3],
         region: m[4],
         language: m[2],
         server: m[1],
     }
+}
+
+function buildProfileUrl(params) {
+    return 'http://{server}.battle.net/sc2/{language}/profile/{user_id}/{region}/{username}/'
+        .formatUnicorn(params);
 }
 
 function getUserProfile(params) {
@@ -160,18 +165,10 @@ function cleanProfileData(params, profile) {
                     }
                 }
 
-                if (achValues.length == 0) {
-                    // All achievements in this category have been completed
-                    delete categories[k];
-                }
-                else {
-                    c.achievements = achValues;
-                }
-
+                c.achievements = achValues;
             }
             profile.achievements.achievements = categories;
 
-            console.log('returning profile');
             return profile;
         })
         .catch(err => {
@@ -192,7 +189,6 @@ function getCacheFile(locale, filename) {
  * Try to load cached definitions, or update from battle.net
  */
 function getAchievementDefinitions(server, locale, callback) {
-    console.log('getAchievementDefinitions');
     return Promise.all([readAchievements(locale), readCategories(locale)])
         .catch(err => {
             console.log('calling updateAchievementDefinitions: ' + err);
@@ -204,7 +200,6 @@ function getAchievementDefinitions(server, locale, callback) {
  * Read the cached achievements file for this locale
  */
 function readAchievements(locale) {
-    console.log('readAchievements');
     return new Promise((resolve, reject) => {
         fs.readFile(getCacheFile(locale, 'achievements.json'), 'utf-8', (err, data) => {
             if (err) {
@@ -228,7 +223,6 @@ function readAchievements(locale) {
  * Read the cached categories file for this locale
  */
 function readCategories(locale) {
-    console.log('readCategories');
     return new Promise((resolve, reject) => {
         fs.readFile(getCacheFile(locale, 'categories.json'), 'utf-8', (err, data) => {
             if (err) {
@@ -300,7 +294,6 @@ function updateAchievementDefinitions(server, locale, callback) {
  * @return {Promise}      Categorised achievements list
  */
 function buildCategories(data) {
-    console.log('buildCategories');
     return new Promise((resolve, reject) => {
         const achievements = data.achievements;
         const categories = data.categories;
@@ -312,7 +305,6 @@ function buildCategories(data) {
         for (let i = 0; i < lenC; i++) {
             const c = categories[i];
             const catID = c.categoryId;
-            delete c.categoryId;
 
             if (c.children) {
                 const children = c.children;
@@ -322,10 +314,8 @@ function buildCategories(data) {
                     const ch = children[j];
                     ch.parent = catID;
                     const chCatID = ch.categoryId;
-                    delete ch.categoryId;
                     ch.achievements = [];
                     ch.points = 0;
-
                     catDictionary[chCatID] = ch;
                 }
             }
@@ -379,6 +369,7 @@ module.exports = {
     lookup: lookup,
     getUserProfile: getUserProfile,
     parseProfileUrl: parseProfileUrl,
+    buildProfileUrl: buildProfileUrl,
 }
 
 if (config.debug) {
