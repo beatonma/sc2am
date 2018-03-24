@@ -88,11 +88,13 @@ function serveUserPage(request, response) {
         const locale = sc2.lookup(server)[language] || config.locale;
         const params = {
             server: server,
+            language: language,
             locale: locale,
             user_id: m[3],
             region: m[4],
-            username: m[5]
+            username: m[5],
         }
+        params['bnet_profile_url'] = sc2.buildProfileUrl(params);
         serveHtml(response, templates.profile.stub(params));
     }
     else {
