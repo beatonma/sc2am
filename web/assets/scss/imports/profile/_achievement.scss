@@ -1,0 +1,31 @@
+$thumb-size: 2em;
+
+.achievement {
+    background: var(--background-secondary);
+    color: var(--text-secondary);
+    margin: 0 4px 8px 4px;
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    line-height: 1.1em;
+}
+
+.achievement .title {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.achievement .thumb {
+    vertical-align: middle;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+.thumb .points {
+    font-size: $thumb-size;
+    line-height: $thumb-size;
+    width: $thumb-size;
+    height: $thumb-size;
+    padding-right: $thumb-size / 4;
+}

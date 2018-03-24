@@ -1,0 +1,19 @@
+$scrollbar_thickness: 8px;
+
+::selection {
+    background: var(--selected);
+}
+
+::-webkit-scrollbar {
+    width: $scrollbar_thickness;
+    height: $scrollbar_thickness;
+}
+::-webkit-scrollbar-button {
+    background: transparent;
+}
+::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--text-secondary);
+}

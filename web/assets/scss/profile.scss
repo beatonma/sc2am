@@ -1,0 +1,49 @@
+@import 'imports/profile/achievement';
+@import 'imports/profile/category';
+
+a {
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+#debug {
+    background: rgba(255, 0, 0, .3);
+}
+
+#username {
+    font-size: 2em;
+}
+
+#points_categories {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#achievement_controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    font-size: 0.8em;
+    align-items: center;
+    font-family: monospace;
+    font-weight: 600;
+}
+
+#achievements {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    transition: width 300ms;
+}
+
+.points {
+    color: var(--accent);
+}
+
+.control {
+    padding: 0 4px;
+    cursor: pointer;
+    color: var(--accent);
+}

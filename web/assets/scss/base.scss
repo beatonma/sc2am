@@ -1,0 +1,16 @@
+@import 'imports/base/colors';
+@import 'imports/base/chrome';
+
+body {
+    background: var(--background-primary);
+    color: var(--text-primary);
+    font-family: sans-serif;
+}
+
+.hidden {
+    display: none;
+}
+
+.debug-warning {
+    color: red;
+}

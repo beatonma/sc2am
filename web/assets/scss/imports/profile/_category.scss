@@ -1,0 +1,124 @@
+.material-icons {
+    font-size: inherit !important;
+    line-height: inherit !important;
+}
+
+.category {
+    background: rgba(0, 0, 255, 0.2);
+    border-radius: 6px;
+    max-width: 800px;
+    margin-bottom: 8px;
+    // padding-bottom: 16px;
+}
+
+.subcategory {
+    background: rgba(255, 0, 0, 0.2);
+    max-width: 600px;
+    // margin-bottom: 32px;
+}
+
+.category-header, .subcategory-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 8px;
+    justify-content: flex-start;
+    align-items: baseline;
+}
+
+.category-header *, .subcategory-header * {
+    padding-right: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.category-header .title {
+    font-size: 1.2em;
+}
+
+.category-header .points {
+
+}
+
+.collapse-icon {
+    fill: var(--text-primary);
+    cursor: pointer;
+    transition-timing-function: ease-in-out;
+    transition: transform 300ms, background 120ms, border-radius 600ms;
+    padding: 8px;
+    border-radius: 35%;
+}
+
+.collapse-icon:hover {
+    background: var(--selected);
+    border-radius: 50%;
+}
+
+.collapse-icon.collapsed {
+    transform: rotate(180deg);
+}
+
+.category .content-container {
+    border-left: 4px solid green;
+}
+
+.subcategory .content-container {
+    border-left: 4px solid yellow;
+    margin-left: 4px;
+}
+
+
+.content-container.expanded {
+    animation: expand 300ms ease-in-out;
+}
+
+.content-container.collapsed {
+    animation: collapse 300ms ease-in-out;
+    animation-fill-mode: forwards;
+    border-left: none;
+}
+
+.spacer {
+    flex-grow: 100;
+}
+
+@keyframes expand {
+    0% {
+        opacity: 0%;
+        max-height: 0;
+        visibility: hidden;
+    }
+    1% {
+        max-height: 0;
+        visibility: visible;
+    }
+    99% {
+        max-height: 100vh;
+    }
+    100% {
+        visibility: visible;
+        opacity: 100%;
+    }
+}
+
+@keyframes collapse {
+    0% {
+        opacity: 100%;
+        visibility: visible;
+    }
+    1% {
+        max-height: 100vh;
+    }
+    70% {
+        opacity: 0%;
+    }
+    99% {
+        max-height: 0;
+    }
+    100% {
+        background: red;
+        opacity: 0%;
+        max-height: 0;
+        visibility: hidden;
+    }
+}
