@@ -1,4 +1,4 @@
 module.exports = {
-    'profile': require('./profile'),
     'main': require('./main'),
+    'profile': require('./profile'),
 }
