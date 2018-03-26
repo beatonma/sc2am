@@ -9,14 +9,6 @@ const ACHIEVEMENTS_URL = 'https://{server}.api.battle.net/sc2/data/achievements?
 const PROFILE_URL = 'https://{server}.api.battle.net/sc2/profile/{user_id}/{region}/{username}/?locale={locale}&apikey={api_key}';
 
 const CODES = {
-    // // Achievement categories - top level
-    // '4325379': 'Liberty Campaign',
-    // '4325410': 'Swarm Campaign',
-    // '4330138': 'Void Campaign',
-    // '4364473': 'Mission Packs',
-    // '4386911': 'Co-op Missions',
-    // '4325377': 'Versus',
-
     // Server locales
     'eu': {
         'de': 'de_DE',
@@ -130,16 +122,8 @@ function cleanProfileData(params, profile) {
         delete profile[UNUSED_PROFILE_DATA[i]];
     }
 
-    // const pointsCategories = profile.achievements.points.categoryPoints;
-    // for (let k in pointsCategories) {
-    //     // Replace category IDs with names
-    //     pointsCategories[i18n.__(lookup(k))] = pointsCategories[k];
-    //     delete pointsCategories[k];
-    // }
-
     return getAchievementDefinitions(params.server, params.locale)
         .then(results => {
-            console.log('processing achievements');
             const achievements = results[0];
             const categories = results[1];
 
@@ -168,6 +152,14 @@ function cleanProfileData(params, profile) {
                 c.achievements = achValues;
             }
             profile.achievements.achievements = categories;
+
+            // Add names to points category IDs
+            const pointsCategories = profile.achievements.points.categoryPoints;
+            for (let k in pointsCategories) {
+                const points = pointsCategories[k];
+                const title = categories[k].title;
+                pointsCategories[k] = {title: title, points: points};
+            }
 
             return profile;
         })
