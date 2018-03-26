@@ -1,18 +1,21 @@
+@import 'vars';
 $thumb-size: 2em;
 
 .achievement {
-    background: var(--background-secondary);
+    // background: var(--background-secondary);
     color: var(--text-secondary);
     margin: 0 4px 8px 4px;
     padding: 8px;
     display: flex;
     flex-direction: row;
-    line-height: 1.1em;
+    align-items: center;
+    border-left: 4px solid var(--text-tertiary);
 }
 
 .achievement .title {
     color: var(--text-primary);
     font-weight: 600;
+    letter-spacing: $wide-letter-spacing;
 }
 
 .achievement .thumb {
@@ -20,6 +23,7 @@ $thumb-size: 2em;
     align-items: center;
     align-content: center;
     text-align: center;
+    letter-spacing: $wide-letter-spacing;
 }
 
 .thumb .points {

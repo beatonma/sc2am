@@ -1,10 +1,12 @@
+@import 'vars';
+
 .material-icons {
     font-size: inherit !important;
     line-height: inherit !important;
 }
 
 .category {
-    background: rgba(0, 0, 255, 0.2);
+    // background: rgba(0, 0, 255, 0.2);
     border-radius: 6px;
     max-width: 800px;
     margin-bottom: 8px;
@@ -12,9 +14,10 @@
 }
 
 .subcategory {
-    background: rgba(255, 0, 0, 0.2);
-    max-width: 600px;
-    // margin-bottom: 32px;
+    // background: rgba(255, 0, 0, 0.2);
+    // max-width: 760px;
+    margin-right: 0;
+    margin-left: auto;
 }
 
 .category-header, .subcategory-header {
@@ -30,10 +33,13 @@
     padding-right: 8px;
     padding-top: 8px;
     padding-bottom: 8px;
+    letter-spacing: $wide-letter-spacing;
 }
 
 .category-header .title {
     font-size: 1.2em;
+    // letter-spacing: $wide-letter-spacing;
+    text-transform: uppercase;
 }
 
 .category-header .points {
@@ -59,11 +65,11 @@
 }
 
 .category .content-container {
-    border-left: 4px solid green;
+    border-left: 4px solid var(--text-primary);
 }
 
 .subcategory .content-container {
-    border-left: 4px solid yellow;
+    border-left: 4px solid var(--text-secondary);
     margin-left: 4px;
 }
 

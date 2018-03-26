@@ -4,13 +4,69 @@
 body {
     background: var(--background-primary);
     color: var(--text-primary);
-    font-family: sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
+    line-height: 1.36798em;
 }
 
 .hidden {
+    // visibility: hidden;
     display: none;
 }
 
 .debug-warning {
     color: red;
+}
+
+#error {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    position: fixed;
+    height: 2em;
+    line-height: 2em;
+    bottom: -3em;
+    text-align: center;
+    width: 100%;
+    background: #111;
+    padding: 8px;
+    max-width: 600px;
+    visibility: hidden;
+    transition: bottom 300ms;
+}
+
+#error.show-error {
+    visibility: visible;
+    bottom: 0;
+}
+
+.button {
+    padding: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 0.8em;
+    color: var(--accent-secondary);
+}
+
+#error.button {
+    // position: absolute;
+    // right: 0;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 0.8em;
+    color: var(--accent-secondary);
+}
+
+.button:hover {
+    background: var(--selected);
+    transition: background 160ms;
+}
+
+@media screen and (min-width: 600px) {
+    #error_message {
+        width: 75%;
+        right: 0;
+    }
 }

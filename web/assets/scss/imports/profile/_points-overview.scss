@@ -1,0 +1,84 @@
+@import 'vars';
+$svg-size: 180px;
+
+
+#points_overview {
+    max-width: 800px;
+    margin: 0 auto 2em auto;
+}
+
+#points_categories {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: auto;
+    max-width: 367px;
+}
+
+.points-category {
+    max-width: 160px;
+    margin: 16px 16px;
+    text-align: center;
+}
+
+.points-category .points {
+    font-size: 1.2em;
+    letter-spacing: $wide-letter-spacing;
+}
+
+.campaign-svg {
+    height: 60px;
+    width: auto;
+    max-width: $svg-size;
+    max-height: $svg-size;
+    margin-bottom: 8px;
+}
+.campaign-path {
+    fill: var(--selected);
+    stroke: var(--text-primary);
+    stroke-width: 4px;
+    transition: fill 300ms, stroke-width 300ms;
+}
+
+.campaign-path.protoss:hover {
+    fill: var(--protoss);
+    stroke-width: 0px;
+}
+.campaign-path.terran:hover {
+    fill: var(--terran);
+    stroke-width: 0px;
+}
+.campaign-path.zerg:hover {
+    fill: var(--zerg);
+    stroke-width: 0px;
+}
+.campaign-path.terran-dominion:hover {
+    fill: var(--terran-dominion);
+    stroke-width: 0px;
+}
+.campaign-path.coop:hover {
+    fill: var(--coop);
+    stroke-width: 0px;
+}
+.campaign-path.versus:hover {
+    fill: var(--versus);
+    stroke-width: 0px;
+}
+
+@media screen and (min-width: 423px) {
+    #points_categories {
+        max-width: 531px;
+    }
+
+    .campaign-svg {
+        height: 101px;
+    }
+}
+
+@media screen and (min-width: 822px) {
+    #points_categories {
+        max-width: 800px;
+    }
+}

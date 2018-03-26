@@ -1,8 +1,18 @@
 :root {
-  --background-primary: #00111E;
-  --background-secondary: #001631;
-  --text-primary: #B6FFFF;
-  --text-secondary: #00B5FB;
-  --accent: #00FB84;
-  --selected: rgba(255,255,255,.08);
+    // --background-primary: #00111E;
+    --background-primary: #0E1013;
+    --background-secondary: #001631;
+    --text-primary: #B6FFFF;
+    --text-secondary: #00B5FB;
+    --text-tertiary: rgba(255,255,255,0.24);
+    --accent: #00FB84;
+    --accent-secondary: #ffca00;
+    --selected: rgba(255,255,255,.08);
+
+    --protoss: rgba(253, 243, 116, .85);
+    --terran: rgba(116, 205, 220, .85);
+    --zerg: rgba(130, 61, 174, .85);
+    --terran-dominion: rgba(188, 32, 30, .85);
+    --versus: rgba(0, 99, 181, .85);
+    --coop: rgba(226, 170, 104, 1);
 }
