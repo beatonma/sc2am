@@ -38,6 +38,25 @@ const DEPRECATED_ACHIEVEMENTS = [
  *
  * Groups are in ascending order, unless otherwise specified
  */
+const ACHIEVEMENT_OVERRIDE_CATEGORIES = [
+    3211292,  // Wings of Liberty, 'Story Mode'
+    4325408,  // Arcade
+    3211293,  // Heart of the Swarm, 'Story Mode'
+    4346203,  // Legacy of the Void, 'Story Mode'
+    4353371,  // Co-op, 'Difficulty'
+    4377898,  // Co-op, 'Levels'
+    4325378,  // Versus, '1v1 Unranked/Ranked'
+    4325385,  // Versus, 'Team Unranked/Ranked'
+    4325386,  // Versus, 'Versus A.I. Very Easy'
+    4325387,  // Versus, 'Versus A.I. Medium'
+    4325388,  // Versus, 'Versus A.I. Harder'
+    4325389,  // Versus, 'Versus A.I. Elite'
+    4325390,  // Versus, 'Race Versus A.I.'
+    4325392,  // Custom Games, 'Very Easy A.I'
+    4325395,  // Custom Games, 'Medium A.I'
+    4325396,  // Custom Games, 'Harder A.I'
+    4325402,  // Custom Games, 'Elite A.I'
+];
 
 const ACHIEVEMENT_OVERRIDES = [
     /* SINGLE PLAYER */
