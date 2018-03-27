@@ -8,7 +8,7 @@ const i18n = require('i18n');
 const ACHIEVEMENTS_URL = 'https://{server}.api.battle.net/sc2/data/achievements?locale={locale}&apikey={api_key}';
 const PROFILE_URL = 'https://{server}.api.battle.net/sc2/profile/{user_id}/{region}/{username}/?locale={locale}&apikey={api_key}';
 
-const CODES = {
+const LOCALE_CODES = {
     // Server locales
     'eu': {
         'de': 'de_DE',
@@ -36,26 +36,6 @@ const CODES = {
     }
 }
 
-// Old achievements that are no longer available
-// TODO remove these while caching achievements
-const DEPRECATED_ACHIEVEMENTS = [
-    // Free-for-all
-    '91475320766623',
-    '91475320766624',
-    '91475320766625',
-    '91475320766626',
-    '91475320766627',
-    '91475320766628',
-    '91475320766629',
-    '91475320766630',
-    '91475320766632',
-    '91475035553850',
-];
-
-const ACHIEVEMENT_GROUPING = {
-
-};
-
 /*
  * These profile sections will be removed before sending to client
  */
@@ -67,10 +47,6 @@ const UNUSED_PROFILE_DATA = [
     'season',
     'rewards',
 ];
-
-function lookup(code) {
-    return code in CODES ? CODES[code] : code;
-}
 
 function parseProfileUrl(url) {
     // e.g. http://eu.battle.net/sc2/en/profile/2784180/1/fallofmath/
@@ -358,7 +334,9 @@ function buildAchievements(achievements) {
 
 
 module.exports = {
-    lookup: lookup,
+    lookup: code => {
+        return code in LOCALE_CODES ? LOCALE_CODES[code] : code;
+    },
     getUserProfile: getUserProfile,
     parseProfileUrl: parseProfileUrl,
     buildProfileUrl: buildProfileUrl,
