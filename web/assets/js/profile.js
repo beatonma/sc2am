@@ -82,12 +82,12 @@ function loadProfile(params, callback) {
         else {
             console.error(xhr.status + ': ' + xhr.response);
             hide('loading');
-            // TODO show loading error
-            // 
+            showError('Unable to load data [' + xhr.status + '] - please try again');
         }
     };
     xhr.onerror = err => {
         hide('loading');
+        showError('Unable to load data [' + xhr.status + '] - please try again');
         console.error('LOADING ERROR: ' + err);
     }
     const payload = new URLSearchParams();
@@ -126,7 +126,6 @@ function displayProfile(profile) {
             svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
             svg.setAttribute('viewBox', '0 0 240 240');
             svg.setAttribute('class', 'campaign-svg');
-            svg.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", "http://www.w3.org/1999/xlink");
 
             const icon = CATEGORY_ICONS[k];
             const paths = icon.paths;
@@ -211,6 +210,7 @@ function getCategorised() {
         if (c.parent) {
             try {
                 const p = categorised[c.parent];
+                p.points += c.points;
                 (p.children = p.children || []).push(c);
                 p.pointsToGo = (p.pointsToGo || 0) + (c.pointsToGo || 0);
 
@@ -225,6 +225,9 @@ function getCategorised() {
 }
 
 function displayCategorised() {
+    gSortType = null;
+    gSortReverse = false;
+
     hide('achievements_container');
     show('loading');
     const el = document.getElementById('achievements');
@@ -310,7 +313,12 @@ function buildCategoryHeader(parentEl, category, baseClassName) {
     parentEl.appendChild(header);
 }
 
-function buildAchievements(parentEl, achievements) {
+/*
+ * Args may contain:
+ *     - showParents: Show the path of each achievement's parents
+ *                    e.g. Wings of Liberty/Mar Sara Missions
+ */
+function buildAchievements(parentEl, achievements, args) {
     if (achievements) {
         const len = achievements.length;
         for (let i = 0; i < len; i++) {
@@ -321,6 +329,10 @@ function buildAchievements(parentEl, achievements) {
     return 0;
 }
 
+/*
+ * showParents: Show the path of the achievement's parents
+ *              e.g. Wings of Liberty/Mar Sara Missions
+ */
 function buildAchievement(parentEl, achievement) {
     const container = document.createElement('div');
     container.className = 'achievement';
@@ -334,11 +346,9 @@ function buildAchievement(parentEl, achievement) {
     // Main view showing title, description...
     const main = document.createElement('div');
     main.className = 'content';
-    const fields = ['title', 'description', 'achievementId', 'categoryId'];
-    for (let i = 0; i < fields.length; i++) {
-        const f = fields[i];
-        main.appendChild(createText(achievement[f], {className: f}));
-    }
+    main.appendChild(createText(achievement.title, {className: 'title'}));
+    main.appendChild(createText(achievement.description, {className: 'description'}));
+
     container.appendChild(main);
     parentEl.appendChild(container);
 }
@@ -376,6 +386,38 @@ function hide() {
 function show() {
     for (let i = 0; i < arguments.length; i++) {
         document.getElementById(arguments[i]).classList.remove('hidden');
+    }
+}
+
+function showLoading() {
+    const loading = document.getElementById('loading');
+
+}
+
+function hideLoading() {
+    const loading = document.getElementById('loading');
+}
+
+function showError(message) {
+    const error = document.getElementById('error');
+    error.classList.add('show-error');
+
+    const errorMessage = error.querySelector('.message');
+    empty(errorMessage);
+    errorMessage.appendChild(document.createTextNode(message));
+
+    const errorButton = error.querySelector('.button');
+    errorButton.addEventListener('click', () => {
+        hideError();
+        errorButton.removeEventListener('click', () => 0);
+    });
+}
+
+function hideError(callback) {
+    const error = document.getElementById('error');
+    error.classList.remove('show-error');
+    if (callback) {
+        callback();
     }
 }
 
@@ -438,14 +480,30 @@ function showDebug(data) {
     }
 }
 
+function showSortSelection(name) {
+    const ids = ['sort_category', 'sort_points', 'sort_title'];
+    for (let i = 0; i < ids.length; i++) {
+        const id = ids[i];
+        if (name === id) {
+            document.getElementById(id).classList.add('selected');
+        }
+        else {
+            document.getElementById(id).classList.remove('selected');
+        }
+    }
+}
+
 
 document.getElementById('sort_category').addEventListener('click', () => {
     displayCategorised();
+    showSortSelection('sort_category');
 });
 document.getElementById('sort_points').addEventListener('click', () => {
+    showSortSelection('sort_points');
     displayList(sortByPoints, 'points');
 });
 document.getElementById('sort_title').addEventListener('click', () => {
+    showSortSelection('sort_title');
     displayList(sortByTitle, 'title');
 });
 document.getElementById('expand_all').addEventListener('click', () => {
@@ -460,4 +518,7 @@ document.getElementById('collapse_all').addEventListener('click', () => {
 });
 
 loadProfile(user);
+setTimeout(() => {
+    showError('This is a testing error');
+}, 1000);
 })();
