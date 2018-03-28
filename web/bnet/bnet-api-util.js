@@ -3,6 +3,7 @@ const path = require('path');
 const config = require('../../config');
 const request = require('request');
 const i18n = require('i18n');
+const achievementUtil = require('./achievement-util.js');
 
 // API endpoints
 const ACHIEVEMENTS_URL = 'https://{server}.api.battle.net/sc2/data/achievements?locale={locale}&apikey={api_key}';
@@ -39,7 +40,7 @@ const LOCALE_CODES = {
 /*
  * These profile sections will be removed before sending to client
  */
-const UNUSED_PROFILE_DATA = [
+const IGNORED_PROFILE_DATA = [
     'portrait',
     'career',
     'swarmLevels',
@@ -94,8 +95,8 @@ function getUserProfile(params) {
  */
 function cleanProfileData(params, profile) {
     console.log('cleanProfileData()');
-    for (let i = 0; i < UNUSED_PROFILE_DATA.length; i++) {
-        delete profile[UNUSED_PROFILE_DATA[i]];
+    for (let i = 0; i < IGNORED_PROFILE_DATA.length; i++) {
+        delete profile[IGNORED_PROFILE_DATA[i]];
     }
 
     return getAchievementDefinitions(params.server, params.locale)
@@ -104,13 +105,20 @@ function cleanProfileData(params, profile) {
             const categories = results[1];
 
             const completed = profile.achievements.achievements;
-            let len = completed.length;
 
+            // Find any 'override' achievements and add them to the
+            // completed list
+            addCategoryIds(completed, achievements);
+            achievementUtil.addOverrides(completed);
+
+            let len = completed.length;
             // Remove any achievements that have already been completed
             for (let i = 0; i < len; i++) {
                 const c = completed[i];
                 delete achievements[c.achievementId];
             }
+
+            achievementUtil.removeDeprecated(achievements);
 
             // Replace achievement ID list with the full achievement objects
             for (let k in categories) {
@@ -143,6 +151,19 @@ function cleanProfileData(params, profile) {
             console.error('getAchievementDefinitions failed: ' + err);
             return {};
         });
+}
+
+/*
+ * Take a list of completed achievements as returned by the profile API
+ * i.e. each object has 'achievementId' and 'completionDate'
+ * Add categoryId to these objects
+ */
+function addCategoryIds(achievements, achievementDefs) {
+    const len = achievements.length;
+    for (let i = 0; i < len; i++) {
+        const a = achievements[i];
+        a.categoryId = achievementDefs[a.achievementId].categoryId;
+    }
 }
 
 function getCacheDir(locale) {
@@ -308,6 +329,16 @@ function buildCategories(data) {
             }
         }
 
+        // Remove any categories we are not interested in
+        const lenIgnore = achievementUtil.IGNORED_ACHIEVEMENT_CATEGORIES.length;
+        for (let i = 0; i < lenIgnore; i++) {
+            const ig = achievementUtil.IGNORED_ACHIEVEMENT_CATEGORIES[i];
+            if (ig in catDictionary) {
+                console.log('Removing category ' + ig);
+                delete catDictionary[ig];
+            }
+        }
+
         resolve(catDictionary);
     });
 }
@@ -346,4 +377,5 @@ if (config.debug) {
     module.exports['buildAchievements'] = buildAchievements;
     module.exports['buildCategories'] = buildCategories;
     module.exports['getAchievementDefinitions'] = getAchievementDefinitions;
+    module.exports['addCategoryIds'] = addCategoryIds;
 }
