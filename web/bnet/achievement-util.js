@@ -42,7 +42,9 @@ const DEPRECATED_ACHIEVEMENTS = [
  * manually :(  It is very tedious but we may need to update this as more
  * achievements are added - particularly co-op ones.
  *
- * Groups are in ascending order, unless otherwise specified
+ * All achievements within a group must be in increasing order of importance -
+ * it is assumed that each achievement overrides any that appear before it in
+ * the list!
  *
  * n.b: The 'Feats of Strength' category contains many override achievements
  *      but we ignore them because they are not worth any points and they are
@@ -844,6 +846,13 @@ function addOverrides(achievements) {
     }
 }
 
+function removeDeprecated(achievementsDict) {
+    const len = DEPRECATED_ACHIEVEMENTS.length;
+    for (let i = 0; i < len; i++) {
+        delete achievementsDict[DEPRECATED_ACHIEVEMENTS[i]];
+    }
+}
+
 /*
  * Take a list of completed achievement IDs
  * For each achievement, check if it overrides others and add those to
@@ -852,6 +861,7 @@ function addOverrides(achievements) {
 
 module.exports = {
     IGNORED_ACHIEVEMENT_CATEGORIES: IGNORED_ACHIEVEMENT_CATEGORIES,
-    DEPRECATED_ACHIEVEMENTS: DEPRECATED_ACHIEVEMENTS,
+    // DEPRECATED_ACHIEVEMENTS: DEPRECATED_ACHIEVEMENTS,
+    removeDeprecated: removeDeprecated,
     addOverrides: addOverrides,
 }
