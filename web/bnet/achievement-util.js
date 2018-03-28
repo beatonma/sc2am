@@ -76,6 +76,7 @@ const ACHIEVEMENT_OVERRIDES = {
     /* SINGLE PLAYER */
     3211292: {
         hard: {
+            // WoL Hard 5-25
             achievements: [
                 91475035553997,
                 91475035553998,
@@ -85,6 +86,7 @@ const ACHIEVEMENT_OVERRIDES = {
             ],
         },
         brutal: {
+            // WoL Brutal 5-25
             overrides: 'hard',
             achievements: [
                 91475035554002,
@@ -94,49 +96,54 @@ const ACHIEVEMENT_OVERRIDES = {
                 91475035554006,
             ],
         },
-        // Wings of Liberty: Hard 5-25
-        // 91475035553997,
-        // 91475035553998,
-        // 91475035553999,
-        // 91475035554000,
-        // 91475035554001,
-
-        // // Wings of Liberty: Brutal 5-25
-        // 91475035554002,
-        // 91475035554003,
-        // 91475035554004,
-        // 91475035554005,
-        // 91475035554006,
     },
 
-    3211293: [
-        // Heart of the Swarm: Brutal 5-20
-        91475035554156, // 5
-        91475035554157, // 20
-        91475035554158, // 10
-        91475035554159, // 15
+    3211293: {
+        brutal: {
+            // Heart of the Swarm: Brutal 5-20
+            overrides: 'hard',
+            achievements: [
+                91475035554156, // 5
+                91475035554158, // 10
+                91475035554159, // 15
+                91475035554157, // 20
+            ],
+        },
 
-        // Heart of the Swarm: Hard 5-20
-        91475035554160, // 5
-        91475035554161, // 20
-        91475035554162, // 10
-        91475035554163, // 15
+        hard: {
+            // Heart of the Swarm: Hard 5-20
+            overrides: 'normal',
+            achievements: [
+                91475035554160, // 5
+                91475035554162, // 10
+                91475035554163, // 15
+                91475035554161, // 20
+            ],
+        },
 
-        // Heart of the Swarm: Normal 5-20
-        91475035554362, // 5
-        91475035554363, // 20
-        91475035554364, // 10
-        91475035554365, // 15
+        normal: {
+            // Heart of the Swarm: Normal 5-20
+            achievements: [
+                91475035554362, // 5
+                91475035554364, // 10
+                91475035554365, // 15
+                91475035554363, // 20
+            ],
+        },
 
-        // HotS Kerrigan Power 10-70
-        91475035554354,
-        91475035554355,
-        91475035554356,
-        91475035554357,
-        91475035554358,
-        91475035554359,
-        91475035554360,
-    ],
+        kerrigan: {
+            // HotS Kerrigan Power 10-70
+            achievements: [
+                91475035554354,
+                91475035554355,
+                91475035554356,
+                91475035554357,
+                91475035554358,
+                91475035554359,
+                91475035554360,
+            ],
+        }
+    },
 
     4346203: [
         // LotV Solar Powered: 50-300
@@ -589,11 +596,13 @@ function addOverrides(achievements) {
                     for (let j = 0; j < pos; j++) {
                         achievements.push({achievementId: achs[j]});
                     }
-                    if ('overrides' in group) {
-                        const related = series[group.overrides];
+                    let related = group.overrides;
+                    while(related) {
+                        const rel = series[related];
                         for (let j = 0; j <= pos; j++) {
-                            achievements.push({achievementId: related.achievements[j]});
+                            achievements.push({achievementId: rel.achievements[j]});
                         }
+                        related = rel.overrides;
                     }
                     break;
                 }
@@ -601,6 +610,10 @@ function addOverrides(achievements) {
         }
     }
 }
+
+// function addRelatedOverrides() {
+
+// }
 
 /*
  * Take a list of completed achievement IDs
