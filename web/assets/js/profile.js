@@ -56,7 +56,7 @@ const CATEGORY_ORDER = [
     '4325382',  // Custom Games
     '4325408',  // Arcade
     '4361752',  // Collection
-    '4325394',  // Feats of Strength
+    // '4325394',  // Feats of Strength
 ];
 
 let gAchievements = null;
@@ -138,7 +138,11 @@ function displayProfile(profile) {
                 
             }
             svg.appendChild(group);
-            container.appendChild(svg);
+
+            const link = document.createElement('a');
+            link.setAttribute('href', '#' + k);
+            link.appendChild(svg);
+            container.appendChild(link);
         }
         else {
             console.error('no icon for ' + k);
@@ -264,7 +268,7 @@ function buildCategory(parentEl, category, baseClassName) {
     buildCategoryHeader(container, category, baseClassName);
 
     const content = document.createElement('div');
-    content.className = 'content-container';
+    content.className = 'content-container collapsed';
 
     childCount += buildAchievements(content, category.achievements);
 
@@ -437,7 +441,7 @@ function flexSpacer() {
 
 function getCollapseIcon() {
     const icon = document.createElement('i');
-    icon.className = 'material-icons collapse-icon';
+    icon.className = 'material-icons collapse-icon collapsed';
     icon.appendChild(document.createTextNode('expand_less'));
     return icon;
 }
