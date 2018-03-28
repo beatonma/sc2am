@@ -1,0 +1,54 @@
+@import 'vars';
+
+#search {
+    max-width: 800px;
+    margin: auto;
+}
+
+#search_form {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+input[type="text"] {
+    flex-grow: 10;
+    border: none;
+    padding: 8px;
+    background: var(--selected);
+    color: var(--text-primary);
+    letter-spacing: $wide-letter-spacing;
+    min-width: 240px;
+    transition: background 300ms, color 300ms;
+}
+
+input[type="text"]:focus {
+    background: #fff;
+    color: #111;
+    outline-color: var(--accent-secondary);
+}
+
+button {
+    outline: none;
+    border: none;
+    background: none;
+    padding: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 0.8em;
+    color: transparent;
+    margin-left: 16px;
+    margin-right: 12px;
+    transition: background 160ms, color 300ms, visibility 300ms;
+    visibility: hidden;
+}
+
+button:hover {
+    background: var(--selected);
+}
+
+form:focus-within button {
+    color: var(--accent-secondary);
+    visibility: visible;
+}

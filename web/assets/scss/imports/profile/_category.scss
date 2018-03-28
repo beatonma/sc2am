@@ -1,4 +1,4 @@
-@import 'vars';
+@import '../base/vars';
 
 .material-icons {
     font-size: inherit !important;
@@ -6,18 +6,16 @@
 }
 
 .category {
-    // background: rgba(0, 0, 255, 0.2);
-    border-radius: 6px;
+    border-radius: $corner-radius;
     max-width: 800px;
     margin-bottom: 8px;
-    // padding-bottom: 16px;
+    background: none;
 }
 
 .subcategory {
-    // background: rgba(255, 0, 0, 0.2);
-    // max-width: 760px;
     margin-right: 0;
     margin-left: auto;
+    background: none;
 }
 
 .category-header, .subcategory-header {
@@ -38,7 +36,6 @@
 
 .category-header .title {
     font-size: 1.2em;
-    // letter-spacing: $wide-letter-spacing;
     text-transform: uppercase;
 }
 
@@ -102,6 +99,7 @@
         max-height: 100vh;
     }
     100% {
+        height: auto;
         visibility: visible;
         opacity: 100%;
     }
@@ -111,6 +109,7 @@
     0% {
         opacity: 100%;
         visibility: visible;
+        height: auto;
     }
     1% {
         max-height: 100vh;
@@ -122,7 +121,6 @@
         max-height: 0;
     }
     100% {
-        background: red;
         opacity: 0%;
         max-height: 0;
         visibility: hidden;

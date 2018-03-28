@@ -1,8 +1,7 @@
-@import 'vars';
+@import '../base/vars';
 $thumb-size: 2em;
 
 .achievement {
-    // background: var(--background-secondary);
     color: var(--text-secondary);
     margin: 0 4px 8px 4px;
     padding: 8px;

@@ -1,20 +1,30 @@
-@import 'imports/profile/vars';
+@import 'imports/base/vars';
 @import 'imports/profile/points-overview';
 @import 'imports/profile/achievement';
 @import 'imports/profile/category';
-
-a {
-    text-decoration: none;
-    color: var(--text-primary);
-}
+@import 'imports/base/search';
+@import 'imports/base/branding';
 
 #debug {
     background: rgba(255, 0, 0, .3);
 }
 
+#profile {
+    max-width: 800px;
+    margin: auto;
+    // border-bottom: solid 2px var(--accent-secondary);
+}
+
 #username {
     font-size: 2em;
     letter-spacing: $wide-letter-spacing;
+    line-height: 2em;
+    color: var(--text-primary);
+}
+
+#loading {
+    max-width: 800px;
+    margin: auto;
 }
 
 #achievement_controls {
@@ -25,6 +35,8 @@ a {
     align-items: center;
     font-family: monospace;
     font-weight: 600;
+    max-width: 800px;
+    margin: auto;
 }
 
 #achievements {
@@ -32,6 +44,12 @@ a {
     max-width: 800px;
     margin: auto;
     transition: width 300ms;
+}
+
+#achievements_container {
+    border-top: solid 2px var(--accent-secondary);
+    max-width: 800px;
+    margin: auto;
 }
 
 .points {

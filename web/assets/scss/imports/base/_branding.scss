@@ -1,0 +1,16 @@
+// For want of a better filename
+@import 'vars';
+
+.sc2am {
+    letter-spacing: $wide-letter-spacing;
+    text-transform: uppercase;
+    font-size: .9em;
+    margin-bottom: 1em;
+    line-height: 31px;
+}
+
+@media screen and (min-width: 1300px) {
+    .sc2am {
+        position: fixed;
+    }
+}
