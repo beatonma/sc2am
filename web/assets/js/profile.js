@@ -336,6 +336,7 @@ function buildAchievements(parentEl, achievements, args) {
 function buildAchievement(parentEl, achievement) {
     const container = document.createElement('div');
     container.className = 'achievement';
+    container.id = achievement.achievementId;
 
     // Thumbnail view showing points
     const thumb = document.createElement('div');
