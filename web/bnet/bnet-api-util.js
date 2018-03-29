@@ -146,11 +146,11 @@ function cleanProfileData(params, profile) {
             }
 
             return profile;
-        })
-        .catch(err => {
-            console.error('getAchievementDefinitions failed: ' + err);
-            return {};
         });
+        // .catch(err => {
+        //     console.error('getAchievementDefinitions failed: ' + err);
+        //     return {};
+        // });
 }
 
 /*
