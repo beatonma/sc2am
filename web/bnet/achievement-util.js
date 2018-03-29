@@ -77,6 +77,7 @@ const ACHIEVEMENT_OVERRIDE_CATEGORIES = [
 const ACHIEVEMENT_OVERRIDES = {
     /* SINGLE PLAYER */
     3211292: {
+        /* Wings of Liberty Story Mode */
         hard: {
             // WoL Hard 5-25
             achievements: [
@@ -98,9 +99,18 @@ const ACHIEVEMENT_OVERRIDES = {
                 91475035554006,
             ],
         },
+        lostvikings: {
+            // Lost Vikings Bronze, Silver, Gold
+            achievements: [
+                91475035553986,
+                91475035553987,
+                91475035553988,
+            ]
+        },
     },
 
     3211293: {
+        /* Heart of the Swarm Story Mode */
         brutal: {
             // Heart of the Swarm: Brutal 5-20
             overrides: 'hard',
@@ -148,6 +158,7 @@ const ACHIEVEMENT_OVERRIDES = {
     },
 
     4346203: {
+        /* Legacy of the Void Story Mode */
         solar: {
             // LotV Solar Powered: 50-300
             achievements: [
@@ -194,6 +205,7 @@ const ACHIEVEMENT_OVERRIDES = {
     },
 
     4325408: {
+        // Arcade
         master: {
             // StarCraft Master: Complete 10-30 rounds
             achievements: [
