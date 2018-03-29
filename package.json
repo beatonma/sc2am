@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node .",
     "test": "mocha tests",
-    "build": "gulp build"
+    "build": "gulp build",
+    "heroku-postbuild": "gulp build"
   },
   "keywords": [
     "scii",
