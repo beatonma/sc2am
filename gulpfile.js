@@ -4,9 +4,11 @@ const minifycss = require('gulp-cssnano');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
 
-gulp.task('default', ['sass', 'minifyjs', 'minifycss', 'watch']);
+gulp.task('default', ['build']);
 
 gulp.task('build', ['sass', 'minifyjs', 'minifycss']);
+
+gulp.task('dev', ['build', 'watch']);
 
 gulp.task('watch', () => {
     gulp.watch('web/assets/scss/**/*.scss', ['sass']);
