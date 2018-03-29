@@ -6,6 +6,8 @@ const sass = require('gulp-sass');
 
 gulp.task('default', ['sass', 'minifyjs', 'minifycss', 'watch']);
 
+gulp.task('build', ['sass', 'minifyjs', 'minifycss']);
+
 gulp.task('watch', () => {
     gulp.watch('web/assets/scss/**/*.scss', ['sass']);
     gulp.watch('web/assets/**/*.js', ['minifyjs']);
