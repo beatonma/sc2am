@@ -861,7 +861,6 @@ function removeDeprecated(achievementsDict) {
 
 module.exports = {
     IGNORED_ACHIEVEMENT_CATEGORIES: IGNORED_ACHIEVEMENT_CATEGORIES,
-    // DEPRECATED_ACHIEVEMENTS: DEPRECATED_ACHIEVEMENTS,
     removeDeprecated: removeDeprecated,
     addOverrides: addOverrides,
 }
