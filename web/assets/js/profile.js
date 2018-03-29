@@ -89,7 +89,7 @@ function loadProfile(params, callback) {
         hide('loading');
         showError('Unable to load data [' + xhr.status + '] - please try again');
         console.error('LOADING ERROR: ' + err);
-    }
+    };
     const payload = new URLSearchParams();
     for (key in user) {
         payload.append(key, user[key]);
@@ -141,6 +141,7 @@ function displayProfile(profile) {
 
             const link = document.createElement('a');
             link.setAttribute('href', '#' + k);
+            link.setAttribute('title', obj.title);
             link.appendChild(svg);
             container.appendChild(link);
         }
@@ -293,11 +294,6 @@ function buildCategoryHeader(parentEl, category, baseClassName) {
     header.appendChild(createText(category.title, {className: 'title'}));
     buildPointsHeader(header, category);
 
-    if (baseClassName === 'category' && category.parent) {
-        // DEBUG ONLY
-        header.appendChild(createText(category.parent, {className: 'debug-warning'}));
-    }
-    header.appendChild(createText(category.categoryId, {className: 'debug-warning'}));
     header.appendChild(flexSpacer());
 
     const collapseIcon = getCollapseIcon();
@@ -522,7 +518,4 @@ document.getElementById('collapse_all').addEventListener('click', () => {
 });
 
 loadProfile(user);
-setTimeout(() => {
-    showError('This is a testing error');
-}, 1000);
 })();
