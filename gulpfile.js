@@ -3,10 +3,13 @@ const minifyjs = require('gulp-babel-minify');
 const minifycss = require('gulp-cssnano');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
+const sequence = require('run-sequence');
 
 gulp.task('default', ['build']);
 
-gulp.task('build', ['sass', 'minifyjs', 'minifycss']);
+gulp.task('build', ['minifyjs'], () => {
+    sequence('sass', 'minifycss');
+});
 
 gulp.task('dev', ['build', 'watch']);
 

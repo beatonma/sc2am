@@ -21,15 +21,15 @@
   "license": "ISC",
   "dependencies": {
     "fs": "0.0.1-security",
+    "gulp": "^3.9.1",
+    "gulp-babel-minify": "^0.3.0",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
     "http": "0.0.0",
     "i18n": "^0.8.3",
     "path": "^0.12.7",
-    "request": "^2.85.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.1.0",
-    "gulp-cssnano": "^2.1.2",
-    "gulp": "^3.9.1",
-    "gulp-babel-minify": "^0.3.0"
+    "request": "^2.85.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
