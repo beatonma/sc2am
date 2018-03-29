@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const expect = require('chai').expect;
 
+
 /*
  * Returns a dictionary object with achievementId as key
  */
@@ -29,7 +30,7 @@ function getTestCategoriesProcessed() {
 function getTestAchievementApiResponse() {
     return JSON.parse(
         fs.readFileSync(
-            path.join(__dirname, 'data', 'achievements_api_response.json'),
+            path.join(__dirname, 'data', 'achievements-api-response.json'),
             'utf-8'));
 }
 
@@ -41,7 +42,7 @@ module.exports = {
 
 
 describe('getTestAchievementsProcessed()', () => {
-    it('return an object parsed from ./data/achievements-processed.json', () => {
+    it('return a dictionary representing achievements from API (after processing)', () => {
         const achievements = getTestAchievementsProcessed();
 
         expect(achievements['91475035554439'].categoryId).to.be.equal(4346203);
@@ -50,7 +51,7 @@ describe('getTestAchievementsProcessed()', () => {
 });
 
 describe('getTestCategoriesProcessed()', () => {
-    it('return an object parsed from ./data/categories-processed.json', () => {
+    it('return a dictionary representing categories from API (after processing)', () => {
         const categories = getTestCategoriesProcessed();
 
         expect(categories['4353371'].parent).to.be.equal(4386911);
@@ -59,7 +60,7 @@ describe('getTestCategoriesProcessed()', () => {
 });
 
 describe('getTestAchievementApiResponse()', () => {
-    it('should return an object representing a response from ...api.battle.net/sc2/data/achievements ', () => {
+    it('should return an object representing a response from ...api.battle.net/sc2/data/achievements (before processing)', () => {
         const apiResponse = getTestAchievementApiResponse();
         const achievements = apiResponse.achievements;
         const categories = apiResponse.categories;
