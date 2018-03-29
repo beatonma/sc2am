@@ -48,7 +48,6 @@ const IGNORED_PROFILE_DATA = [
 function getProfileApiUrl(params) {
     let server, user_id, region, username, locale, api_key;
     ({server, user_id, region, username, locale, api_key} = params);
-    console.log(params);
     return `https://${server}.api.battle.net/sc2/profile/${user_id}/${region}/${username}/?locale=${locale}&apikey=${api_key}`;
 }
 

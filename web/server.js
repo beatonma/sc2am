@@ -59,7 +59,7 @@ function serveApiProfile(request, response) {
 
     sc2.getUserProfile(params)
         .then(profile => {
-            console.log('_______returning profile!');
+            console.log('Returning profile');
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.end(JSON.stringify(profile));
         })
