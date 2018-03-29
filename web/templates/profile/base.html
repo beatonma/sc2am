@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#111111">
+<meta name="theme-color" content="#0e1013">
 
 <link rel="stylesheet" type="text/css" href="/static/css/base.min.css"/>
 <link rel="stylesheet" type="text/css" href="/static/css/profile.min.css"/>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 
 <script type="text/javascript" src="/static/js/main.js"></script>
 
@@ -17,10 +18,9 @@
     <header>
         <a href="/"><div class="sc2am">SCII Achievement Manager</div></a>
         <div id="search">
-            _(Enter the URL to your SCII battle.net profile):
             <form id="search_form" onsubmit="return parseProfileUrl()">
-                <input id="profile_url" type="text" name="profile_url" placeholder="_(battle.net profile url)" />
-                <button type="submit">_(Show achievements)</button>
+                <input id="profile_url" type="text" name="profile_url" placeholder="_(battle.net profile url)"/>
+                <button type="submit">_(gl hf)</button>
             </form>
             <div id="form_error" class="hidden">_(Unable to parse URL - please try again)</div>
         </div>
@@ -28,15 +28,15 @@
     <div id="profile">
         <div id="username" class="username"><a href="{bnet_profile_url}">{username}</a></div>
         <div id="points_overview" class="hidden">
-            <div class="text-primary">_(Total points):<span id="points_total" class="points"></span></div>
+            <div class="text-primary">_(Total points): <span id="points_total" class="points"></span></div>
             <div id="points_categories" class="list"></div>
         </div>
     </div>
     <div id="loading">LOADING</div>
     <div id="achievements_container">
         <div id="achievement_controls" class="hidden">
-            <div id="collapse_all" class="control">_(Collapse all)</div>
-            <div id="expand_all" class="control">_(Expand all)</div>
+            <div id="collapse_all" class="control hidden">_(Collapse all)</div>
+            <div id="expand_all" class="control hidden">_(Expand all)</div>
             _(Sort by):
             <div id="sort_category" class="control selected">_(Category)</div>
             <div id="sort_points" class="control">_(Points)</div>
@@ -46,7 +46,13 @@
     </div>
     <div><pre id="debug"></pre></div>
 
-    <footer></footer>
+    <footer>
+        <div class="footer-links">
+            <a href="https://beatonma.org/sc2am">About</a>
+            <a href="https://github.com/beatonma/sc2am">Source</a>
+        </div>
+        <div id="sc_copyright">©1998 Blizzard Entertainment, Inc. All rights reserved. StarCraft and Blizzard Entertainment are trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.</div>
+    </footer>
 
     <div id="error"><span class="message">This is an error message</span> <span class="button">_(Dismiss)</span></div>
 
