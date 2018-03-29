@@ -82,7 +82,6 @@ function getUserProfile(params) {
     return new Promise((resolve, reject) => {
         i18n.setLocale(params.locale);
         params.api_key = config.api_key;
-        console.log(params);
         const url = getProfileApiUrl(params);
         console.log('Loading profile data: ' + url);
         request.get(url, (err, response, body) => {
@@ -106,7 +105,6 @@ function getUserProfile(params) {
  * Also replace numeric IDs with proper names, where possible
  */
 function cleanProfileData(params, profile) {
-    console.log('cleanProfileData()');
     for (let i = 0; i < IGNORED_PROFILE_DATA.length; i++) {
         delete profile[IGNORED_PROFILE_DATA[i]];
     }
