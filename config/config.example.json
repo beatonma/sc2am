@@ -1,4 +1,5 @@
 {
     "api_key": "your_api_key",
-    "port": 9876
+    "port": 9876,
+    "cache_refresh_rate": 86400
 }
