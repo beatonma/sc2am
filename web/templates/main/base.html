@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#111111">
+<meta name="theme-color" content="#0e1013">
 
 <link rel="stylesheet" type="text/css" href="/static/css/base.min.css"/>
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 
 <script type="text/javascript" src="/static/js/main.min.js"></script>
 
@@ -13,14 +14,27 @@
 </head>
 <body>
     <header>
+        <a href="/"><div class="sc2am">SCII Achievement Manager</div></a>
         <div id="search">
-            _(Enter the URL to your SCII battle.net profile):
             <form id="search_form" onsubmit="return parseProfileUrl()">
-                <input id="profile_url" type="text" name="profile_url"/>
-                <button type="submit">_(Show achievements)</button>
+                <input id="profile_url" type="text" name="profile_url" placeholder="_(battle.net profile url)"/>
+                <button type="submit">_(gl hf)</button>
             </form>
             <div id="form_error" class="hidden">_(Unable to parse URL - please try again)</div>
         </div>
     </header>
+    <div id="content">
+        <h2>_(Achievement hunters!)</h2>
+        <p>_(SCII Achievement Manager shows you which StarCraft II achievements you still need to unlock and hides everything else.)</p>
+        <p>_(Sort by category, points, or title to decide what to focus on next.)</p>
+        <p>_(To get started, just enter the URL to your battle.net profile above. <a href="/eu/en/2784180/1/fallofmath">Here is my profile</a> to give you an idea of what to expect!)</p>
+    </div>
+    <footer>
+        <div class="footer-links">
+            <a href="https://beatonma.org/sc2am">About</a>
+            <a href="https://github.com/beatonma/sc2am">Source</a>
+        </div>
+        <div id="sc_copyright">©1998 Blizzard Entertainment, Inc. All rights reserved. StarCraft and Blizzard Entertainment are trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.</div>
+    </footer>
 </body>
 </html>
