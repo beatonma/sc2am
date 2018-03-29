@@ -5,10 +5,6 @@ const request = require('request');
 const i18n = require('i18n');
 const achievementUtil = require('./achievement-util.js');
 
-// API endpoints
-const ACHIEVEMENTS_URL = 'https://{server}.api.battle.net/sc2/data/achievements?locale={locale}&apikey={api_key}';
-const PROFILE_URL = 'https://{server}.api.battle.net/sc2/profile/{user_id}/{region}/{username}/?locale={locale}&apikey={api_key}';
-
 const LOCALE_CODES = {
     // Server locales
     'eu': {
@@ -49,6 +45,19 @@ const IGNORED_PROFILE_DATA = [
     'rewards',
 ];
 
+function getProfileApiUrl(params) {
+    let server, user_id, region, username, locale, api_key;
+    ({server, user_id, region, username, locale, api_key} = params);
+    console.log(params);
+    return `https://${server}.api.battle.net/sc2/profile/${user_id}/${region}/${username}/?locale=${locale}&apikey=${api_key}`;
+}
+
+function getAchievementsApiUrl(params) {
+    let server, locale, api_key;
+    ({server, locale, api_key} = params);
+    return `https://${server}.api.battle.net/sc2/data/achievements?locale=${locale}&apikey=${api_key}`;
+}
+
 function parseProfileUrl(url) {
     // e.g. http://eu.battle.net/sc2/en/profile/2784180/1/fallofmath/
     const regex = /.*?(\w+)\.battle\.net\/?sc2\/(\w+)\/profile\/(\d+)\/(\d+)\/(.*?)\//g;
@@ -63,15 +72,19 @@ function parseProfileUrl(url) {
 }
 
 function buildProfileUrl(params) {
-    return 'http://{server}.battle.net/sc2/{language}/profile/{user_id}/{region}/{username}/'
-        .formatUnicorn(params);
+    let server, language, user_id, region, username;
+    ({server, language, user_id, region, username} = params);
+
+    return `http://${server}.battle.net/sc2/${language}/profile/${user_id}/${region}/${username}/`;
 }
 
 function getUserProfile(params) {
+    console.log(params);
     return new Promise((resolve, reject) => {
         i18n.setLocale(params.locale);
         params.api_key = config.api_key;
-        const url = PROFILE_URL.formatUnicorn(params);
+        console.log(params);
+        const url = getProfileApiUrl(params);
         console.log('Loading profile data: ' + url);
         request.get(url, (err, response, body) => {
             if (err) {
@@ -147,10 +160,6 @@ function cleanProfileData(params, profile) {
 
             return profile;
         });
-        // .catch(err => {
-        //     console.error('getAchievementDefinitions failed: ' + err);
-        //     return {};
-        // });
 }
 
 /*
@@ -177,7 +186,7 @@ function getCacheFile(locale, filename) {
 /*
  * Try to load cached definitions, or update from battle.net
  */
-function getAchievementDefinitions(server, locale, callback) {
+function getAchievementDefinitions(server, locale) {
     return Promise.all([readAchievements(locale), readCategories(locale)])
         .catch(err => {
             console.log('calling updateAchievementDefinitions: ' + err);
@@ -219,7 +228,6 @@ function readCategories(locale) {
                 reject(err);
             }
             else {
-                console.log('readCategories completed');
                 const j = JSON.parse(data);
                 const now = Date.now();
                 if (j.updated - now > config.cache_refresh_rate * 1000) {
@@ -234,9 +242,9 @@ function readCategories(locale) {
 /*
  * Update definitions cache from battle.net API
  */
-function updateAchievementDefinitions(server, locale, callback) {
+function updateAchievementDefinitions(server, locale) {
     return new Promise((resolve, reject) => {
-        const url = ACHIEVEMENTS_URL.formatUnicorn({
+        const url = getAchievementsApiUrl({
             api_key: config.api_key,
             locale: locale,
             server: server,
@@ -347,7 +355,6 @@ function buildCategories(data) {
  * @returns {Promise} Promise representing achievements suitable for caching
  */
 function buildAchievements(achievements) {
-    console.log('buildAchievements');
     return new Promise((resolve, reject) => {
         const output = {};
         const len = achievements.length;
@@ -374,8 +381,12 @@ module.exports = {
 }
 
 if (config.debug) {
-    module.exports['buildAchievements'] = buildAchievements;
-    module.exports['buildCategories'] = buildCategories;
-    module.exports['getAchievementDefinitions'] = getAchievementDefinitions;
-    module.exports['addCategoryIds'] = addCategoryIds;
+    Object.assign(module.exports, {
+        buildAchievements: buildAchievements,
+        buildCategories: buildCategories,
+        getAchievementDefinitions: getAchievementDefinitions,
+        addCategoryIds: addCategoryIds,
+        getProfileApiUrl: getProfileApiUrl,
+        getAchievementsApiUrl: getAchievementsApiUrl,
+    });
 }
