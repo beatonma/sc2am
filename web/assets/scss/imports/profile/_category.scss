@@ -71,6 +71,9 @@
 }
 
 
+.content-container {
+    overflow-y: hidden;
+}
 .content-container.expanded {
     animation: expand 300ms ease-in-out;
 }

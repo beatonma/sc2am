@@ -4,16 +4,11 @@
 @import 'imports/base/search';
 @import 'imports/base/branding';
 
-html {
-    overflow: scroll;
-}
-
 body {
     background: var(--background-primary);
     color: var(--text-primary);
     font-family: 'Source Sans Pro', sans-serif;
     line-height: 1.36798em;
-    overflow: hidden;
 }
 footer {
     margin: 15em auto 2em auto;
