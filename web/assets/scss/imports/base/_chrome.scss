@@ -9,7 +9,7 @@ $scrollbar_thickness: 8px;
     height: $scrollbar_thickness;
 }
 ::-webkit-scrollbar-button {
-    background: transparent;
+    background: var(--background-primary);
 }
 ::-webkit-scrollbar-track-piece {
     background: transparent;
