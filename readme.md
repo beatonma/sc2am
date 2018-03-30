@@ -6,6 +6,8 @@
   - Collapsable UI lets you show what you're interested in while hiding the rest
   - Sort by category, points, or title
 
+There is a live instance of `sc2am` available on Heroku [here](https://glacial-gorge-94714.herokuapp.com/).
+
 
 ### Translation
 
