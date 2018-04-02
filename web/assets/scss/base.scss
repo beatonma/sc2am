@@ -3,15 +3,18 @@
 @import 'imports/base/chrome';
 @import 'imports/base/search';
 @import 'imports/base/branding';
+@import 'imports/base/loading';
 
 body {
     background: var(--background-primary);
     color: var(--text-primary);
     font-family: 'Source Sans Pro', sans-serif;
     line-height: 1.36798em;
+    margin: 0;
+    overflow-x: hidden;
 }
 footer {
-    margin: 15em auto 2em auto;
+    margin: 8em auto 2em auto;
     font-size: 0.6em;
     color: var(--text-secondary);
     width: 90%;
@@ -26,6 +29,7 @@ a {
 #content {
     max-width: 800px;
     margin: auto;
+    padding: 0 8px;
 }
 
 #content > h2 {
