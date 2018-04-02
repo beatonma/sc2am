@@ -1,4 +1,4 @@
-(() => {
+// (() => {
 const CATEGORY_ICONS = {
     // Liberty Campaign
     '4325379': {
@@ -174,29 +174,44 @@ function getAchievementsList() {
 /*
  * Display achievements as a flat list, sorted by sortfn
  */
-function displayList(sortfn, name) {
+function displayList(sortfn, name, filterQuery) {
     hide('achievements_container');
     show('loading');
 
-    if (name === gSortType) {
-        gSortReverse = !gSortReverse;
+    if (name !== null) {
+        if (name === gSortType) {
+            gSortReverse = !gSortReverse;
+        }
+        gSortType = name;
     }
-    gSortType = name;
 
     const el = document.getElementById('achievements');
     empty(el);
 
-    const achievements = getAchievementsList();
+    const achievements = applyFilter(getAchievementsList(), filterQuery);
+
     achievements.sort(sortfn);
     if (gSortReverse) {
         achievements.reverse();
     }
 
-    buildAchievements(el, achievements);
-    console.log('built ' + achievements.length + ' achievements');
+    buildAchievements(el, achievements, true);
 
     show('achievements_container');
     hide('loading');
+}
+
+function applyFilter(data, query) {
+    if (!query) {
+        return data;
+    }
+    query = query.toLowerCase().trim();
+
+    return data.filter(
+        achievement => achievement.title.toLowerCase().indexOf(query) >= 0
+                    || achievement.description.toLowerCase().indexOf(query) >= 0
+                    || ('' + achievement.achievementId).indexOf(query) >= 0
+                    || ('' + achievement.categoryId).indexOf(query) >= 0);
 }
 
 /*
@@ -314,15 +329,14 @@ function buildCategoryHeader(parentEl, category, baseClassName) {
 }
 
 /*
- * Args may contain:
- *     - showParents: Show the path of each achievement's parents
- *                    e.g. Wings of Liberty/Mar Sara Missions
+ * - showParents: Show the path of each achievement's parents
+ *                e.g. Wings of Liberty/Mar Sara Missions
  */
-function buildAchievements(parentEl, achievements, args) {
+function buildAchievements(parentEl, achievements, showParents) {
     if (achievements) {
         const len = achievements.length;
         for (let i = 0; i < len; i++) {
-            buildAchievement(parentEl, achievements[i]);
+            buildAchievement(parentEl, achievements[i], showParents);
         }
         return achievements.length;
     }
@@ -333,7 +347,7 @@ function buildAchievements(parentEl, achievements, args) {
  * showParents: Show the path of the achievement's parents
  *              e.g. Wings of Liberty/Mar Sara Missions
  */
-function buildAchievement(parentEl, achievement) {
+function buildAchievement(parentEl, achievement, showParents) {
     const container = document.createElement('div');
     container.className = 'achievement';
     container.id = achievement.achievementId;
@@ -349,6 +363,11 @@ function buildAchievement(parentEl, achievement) {
     main.className = 'content';
     main.appendChild(createText(achievement.title, {className: 'title'}));
     main.appendChild(createText(achievement.description, {className: 'description'}));
+
+    if (showParents) {
+        const cat = gAchievements[achievement.categoryId];
+        main.appendChild(createText(cat.title, {className: 'parent-category'}));
+    }
 
     container.appendChild(main);
     parentEl.appendChild(container);
@@ -457,6 +476,10 @@ function collapse(container) {
     container.querySelector('.collapse-icon').classList.add('collapsed');
 }
 
+function sortByCategory(a, b) {
+    return a.categoryId - b.categoryId;
+}
+
 function sortByPoints(a, b) {
     if (a.points === b.points) {
         return sortByTitle(a, b);
@@ -494,29 +517,71 @@ function showSortSelection(name) {
     }
 }
 
+function buildSvg(parentEl, icon, basename) {
+    basename = basename || 'default';
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    svg.setAttribute('viewBox', '0 0 240 240');
+    svg.setAttribute('class', basename + '-svg');
 
+    const paths = icon.paths;
+    const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    group.setAttribute('class', basename + '-path ' + (icon.className || ''));
+    for (let j = 0; j < paths.length; j++) {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', paths[j]);
+        group.appendChild(path);
+    }
+    svg.appendChild(group);
+    parentEl.appendChild(svg);
+}
+
+function buildLoader() {
+    const load = document.getElementById('loading');
+    const icons = ['4325379', '4325410', '4330138'];
+    for (let i = 0; i < icons.length; i++) {
+        const k = icons[i];
+        const ic = CATEGORY_ICONS[k]
+        buildSvg(load, ic, 'loading-' + ic.className);
+    }
+}
+
+function getFilter() {
+    return document.getElementById('filter').value;
+}
+
+document.getElementById('filter').addEventListener('keyup', () => {
+    displayList(sortByCategory, null, getFilter());
+});
 document.getElementById('sort_category').addEventListener('click', () => {
-    displayCategorised();
+    const f = getFilter();
+    if (f) {
+        displayList(sortByCategory, 'category', f);
+    }
+    else {
+        displayCategorised();
+    }
     showSortSelection('sort_category');
 });
 document.getElementById('sort_points').addEventListener('click', () => {
     showSortSelection('sort_points');
-    displayList(sortByPoints, 'points');
+    displayList(sortByPoints, 'points', getFilter());
 });
 document.getElementById('sort_title').addEventListener('click', () => {
     showSortSelection('sort_title');
-    displayList(sortByTitle, 'title');
+    displayList(sortByTitle, 'title', getFilter());
 });
-document.getElementById('expand_all').addEventListener('click', () => {
-    document.querySelectorAll('.category,.subcategory').forEach((category) => {
-        expand(category);
-    });
-});
-document.getElementById('collapse_all').addEventListener('click', () => {
-    document.querySelectorAll('.category,.subcategory').forEach((category) => {
-        collapse(category);
-    });
-});
+// document.getElementById('expand_all').addEventListener('click', () => {
+//     document.querySelectorAll('.category,.subcategory').forEach((category) => {
+//         expand(category);
+//     });
+// });
+// document.getElementById('collapse_all').addEventListener('click', () => {
+//     document.querySelectorAll('.category,.subcategory').forEach((category) => {
+//         collapse(category);
+//     });
+// });
 
+buildLoader();
 loadProfile(user);
-})();
+// })();

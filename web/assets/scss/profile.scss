@@ -4,6 +4,7 @@
 @import 'imports/profile/category';
 @import 'imports/base/search';
 @import 'imports/base/branding';
+@import 'base';
 
 #debug {
     background: rgba(255, 0, 0, .3);
@@ -11,8 +12,8 @@
 
 #profile {
     max-width: 800px;
-    margin: auto;
-    // border-bottom: solid 2px var(--accent-secondary);
+    margin-left: 8px;
+    margin-right: 8px;
 }
 
 #username {
@@ -27,22 +28,10 @@
     margin: auto;
 }
 
-#achievement_controls {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    font-size: 0.8em;
-    align-items: center;
-    font-family: monospace;
-    font-weight: 600;
-    max-width: 800px;
-    margin: auto;
-}
-
 #achievements {
     width: 100%;
     max-width: 800px;
-    margin: auto;
+    margin: 8px auto;
     transition: width 300ms;
 }
 
@@ -56,13 +45,80 @@
     color: var(--accent);
 }
 
+#achievement_controls {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    font-family: monospace;
+    max-width: 800px;
+    margin: auto;
+}
+
+#filter {
+    flex-grow: 10;
+    margin: 0 !important;
+    font-family: sans-serif !important;
+    max-width: 400px;
+}
+
+.control-group {
+    margin: 4px auto;
+    font-size: 0.8em;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;
+    max-width: 423px;
+    transition: margin 300ms;
+}
+
 .control {
-    padding: 0 4px;
+    padding: 8px;
+    border: solid 1px var(--selected);
+    border-radius: $corner-radius;
+    margin: auto 8px;
     cursor: pointer;
     color: var(--accent);
+    transition: background 300ms, border 200ms, color 300ms;
 }
 
 .control.selected {
     color: var(--accent-secondary);
+    background: var(--selected);
     font-weight: 600;
+}
+
+@media screen and (min-width: 423px) {
+    #achievement_controls {
+        justify-content: space-between;
+    }
+
+    .control-group {
+        justify-content: center;
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+
+    .control {
+        padding: 0 4px;
+        margin: auto 0;
+        background: none;
+        border: none;
+    }
+
+    .control.selected {
+        color: var(--accent-secondary);
+        background: none;
+        font-weight: 600;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    #profile {
+        margin-left: auto;
+        margin-right: auto;
+    }
 }

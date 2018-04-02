@@ -2,6 +2,7 @@
 
 #search {
     max-width: 800px;
+    min-width: 240px;
     margin: auto;
 }
 
@@ -14,34 +15,46 @@
 input[type="text"] {
     flex-grow: 10;
     border: none;
-    padding: 8px;
+    padding: 16px 8px;
     background: var(--selected);
     color: var(--text-primary);
     letter-spacing: $wide-letter-spacing;
-    min-width: 240px;
-    transition: background 300ms, color 300ms;
+    max-width: 800px;
+    transition: background 300ms, color 300ms, border-radius 300ms, padding 300ms;
+}
+
+input[type="text"]::selection {
+    background: var(--selected-dark);
+    color: var(--text-secondary);
 }
 
 input[type="text"]:focus {
     background: #fff;
     color: #111;
-    outline-color: var(--accent-secondary);
+    border-width: 0 1px 1px 1px;
+    border-color: var(--accent-secondary);
+    border-style: solid;
+    // border: solid 0 1px 1px 1px var(--accent-secondary);
+    outline: none;
+    // outline-color: var(--accent-secondary);
 }
 
-button {
+form button {
     outline: none;
     border: none;
     background: none;
-    padding: 8px;
     cursor: pointer;
     text-transform: uppercase;
     font-weight: 600;
     font-size: 0.8em;
     color: transparent;
-    margin-left: 16px;
-    margin-right: 12px;
-    transition: background 160ms, color 300ms, visibility 300ms;
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+    transition: background 160ms, all 300ms;
     visibility: hidden;
+    white-space: nowrap;
+    max-width: 0;
 }
 
 button:hover {
@@ -51,4 +64,22 @@ button:hover {
 form:focus-within button {
     color: var(--accent-secondary);
     visibility: visible;
+    width: auto;
+    padding: 8px;
+    margin-left: 16px;
+    margin-right: 12px;
+    max-width: inherit;
+}
+
+@media screen and (min-width: 423px) {
+    input[type="text"] {
+        padding: 8px;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    input[type="text"] {
+        border-bottom-left-radius: $corner-radius;
+        border-bottom-right-radius: $corner-radius;
+    }
 }

@@ -32,3 +32,10 @@ $thumb-size: 2em;
     height: $thumb-size;
     padding-right: $thumb-size / 4;
 }
+
+.parent-category {
+    font-size: 0.7em;
+    line-height: 1em;
+    color: var(--text-tertiary);
+    letter-spacing: $wide-letter-spacing;
+}

@@ -7,7 +7,9 @@
     --text-tertiary: rgba(255,255,255,0.24);
     --accent: #00FB84;
     --accent-secondary: #ffca00;
-    --selected: rgba(255,255,255,.08);
+    --selected-light: rgba(255,255,255,.08);
+    --selected-dark: rgba(0,0,0,.08);
+    --selected: var(--selected-light);
 
     --protoss: rgba(253, 243, 116, .85);
     --terran: rgba(116, 205, 220, .85);

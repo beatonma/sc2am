@@ -1,0 +1,88 @@
+$animated-property: stroke-width;
+$animate-from: 0;
+$animate-to: 2px;
+
+#loader {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.loading-anim {
+    width: 33%;
+    max-width: 160px;
+    min-height: 80px;
+    max-height: 160px;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    fill: none;
+    stroke: var(--selected);
+    stroke-width: 2px;
+    animation-timing-function: ease-in;
+}
+
+#loader.loading .terran {
+    @extend .loading-anim;
+    animation-name: loading-terran;
+    stroke: var(--terran);
+}
+#loader.loading > .protoss {
+    @extend .loading-anim;
+    stroke: var(--protoss);
+    animation-name: loading-protoss;
+}
+#loader.loading > .zerg {
+    @extend .loading-anim;
+    stroke: var(--zerg);
+    animation-name: loading-zerg;
+}
+
+@keyframes loading-terran {
+    0% {
+        #{$animated-property}: $animate-from;
+    }
+    15% {
+        #{$animated-property}: $animate-to;
+    }
+    65% {
+        #{$animated-property}: $animate-from;
+    }
+    100% {
+        #{$animated-property}: $animate-from;
+    }
+}
+@keyframes loading-protoss {
+    0% {
+        #{$animated-property}: $animate-from;
+    }
+    10% {
+        #{$animated-property}: $animate-from;
+    }
+    25% {
+        #{$animated-property}: $animate-to;
+    }
+    75% {
+        #{$animated-property}: $animate-from;
+    }
+    100% {
+        #{$animated-property}: $animate-from;
+    }
+}
+@keyframes loading-zerg {
+    0% {
+        #{$animated-property}: $animate-from;
+    }
+    20% {
+        #{$animated-property}: $animate-from;
+    }
+    35% {
+        #{$animated-property}: $animate-to;
+    }
+    85% {
+        #{$animated-property}: $animate-from;
+    }
+    100% {
+        #{$animated-property}: $animate-from;
+    }
+}
