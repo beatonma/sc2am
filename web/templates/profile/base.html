@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0e1013">
 
-<link rel="stylesheet" type="text/css" href="/static/css/base.min.css"/>
 <link rel="stylesheet" type="text/css" href="/static/css/profile.min.css"/>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
@@ -35,12 +34,17 @@
     <div id="loading">LOADING</div>
     <div id="achievements_container">
         <div id="achievement_controls" class="hidden">
-            <div id="collapse_all" class="control hidden">_(Collapse all)</div>
-            <div id="expand_all" class="control hidden">_(Expand all)</div>
-            _(Sort by):
-            <div id="sort_category" class="control selected">_(Category)</div>
-            <div id="sort_points" class="control">_(Points)</div>
-            <div id="sort_title" class="control">_(Title)</div>
+            <input id="filter" type="text" placeholder="_(search)"/>
+            <!-- <div class="control-group hidden">
+                <div id="collapse_all" class="control hidden">_(Collapse all)</div>
+                <div id="expand_all" class="control hidden">_(Expand all)</div>
+            </div> -->
+            <div class="control-group">
+                _(Sort by):
+                <div id="sort_category" class="control selected">_(Category)</div>
+                <div id="sort_points" class="control">_(Points)</div>
+                <div id="sort_title" class="control">_(Title)</div>
+            </div>
         </div>
         <div id="achievements" class="list"></div>
     </div>
