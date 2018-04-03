@@ -1,12 +1,13 @@
 # SCII Achievement Manager
 
-`sc2am` aims to make StarCraft II achievements easier to browse.
+`sc2am` aims to make StarCraft II achievements easier to browse:
   - Completed achievements are removed so you can decide what to focus on
     next without the clutter
-  - Collapsable UI lets you show what you're interested in while hiding the rest
+  - Collapsible UI lets you see what you're interested in while hiding the rest
+  - Search for keywords
   - Sort by category, points, or title
 
-There is a live instance of `sc2am` available on Heroku [here](https://glacial-gorge-94714.herokuapp.com/).
+There is a live instance of `sc2am` available to use on Heroku [here](https://secure-crag-51102.herokuapp.com/).
 
 
 ### Translation
