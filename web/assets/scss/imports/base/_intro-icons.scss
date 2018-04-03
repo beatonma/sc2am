@@ -1,0 +1,75 @@
+$animated-property: fill;
+$animate-from: rgba(0, 0, 0, 0);
+$animate-to: var(--text-tertiary);
+$max-size: 300px;
+$delay: 200ms;
+
+#intro_icons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    max-height: $max-size;
+    margin: 32px 8px;
+}
+
+.intro-icon {
+    height: 20vh;
+    width: 33%;
+    max-width: $max-size;
+    min-height: 80px;
+    max-height: $max-size;
+    animation-name: intro;
+    animation-duration: 5000ms;
+    animation-timing-function: ease-in;
+    animation-fill-mode: both;
+}
+
+#intro_icons .terran {
+    @extend .intro-icon;
+    animation-delay: $delay;
+    stroke: var(--terran);
+}
+#intro_icons .protoss {
+    @extend .intro-icon;
+    animation-delay: $delay * 2;
+    stroke: var(--protoss);
+}
+#intro_icons .zerg {
+    @extend .intro-icon;
+    animation-delay: $delay * 3;
+    stroke: var(--zerg);
+}
+
+@keyframes intro {
+    0% {
+        #{$animated-property}: $animate-from;
+        stroke-width: 0;
+        // stroke-width: 0;
+    }
+    20% {
+        stroke-width: 2px;
+    }
+    40% {
+        stroke-width: 2px;
+    }
+    50% {
+        stroke-width: 0;
+    }
+    60% {
+        #{$animated-property}: $animate-from;
+    }
+    // 70% {
+    //     stroke-width: 0;
+    // }
+    // 85% {
+    //     stroke-width: 2px;
+    // }
+    // 50% {
+    //     stroke-width: 0;
+    // }
+    100% {
+        #{$animated-property}: $animate-to;
+        stroke-width: 0;
+    }
+}
