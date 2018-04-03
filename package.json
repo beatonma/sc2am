@@ -2,30 +2,26 @@
   "name": "sc2-achievements",
   "version": "1.0.0",
   "description": "Achievement manager for SCII",
+  "homepage": "https://beatonma.org/app/sc2am",
   "main": "index.js",
   "scripts": {
     "start": "node .",
     "test": "mocha tests",
-    "build": "gulp",
-    "heroku-postbuild": "gulp"
+    "build": "gulp build"
   },
   "keywords": [
     "scii",
     "sc2",
-    "starcraft",
-    "lotv",
-    "hots",
-    "wol"
+    "starcraft"
   ],
   "author": "Michael Beaton <beatonma@gmail.com> (https://beatonma.org)",
   "license": "ISC",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/beatonma/sc2am.git"
+  },
   "dependencies": {
     "fs": "0.0.1-security",
-    "gulp": "^3.9.1",
-    "gulp-babel-minify": "^0.3.0",
-    "gulp-cssnano": "^2.1.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.1.0",
     "http": "0.0.0",
     "i18n": "^0.8.3",
     "path": "^0.12.7",
@@ -33,9 +29,15 @@
     "run-sequence": "^2.2.1"
   },
   "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-babel-minify": "^0.3.0",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
     "chai": "^4.1.2",
-    "gulp-concat": "^2.6.1",
+    "del": "^3.0.0",
     "gulp-iife": "^0.3.0",
+    "gulp-include": "^2.3.1",
     "mocha": "^5.0.4"
   }
 }
