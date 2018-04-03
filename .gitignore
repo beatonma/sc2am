@@ -2,3 +2,5 @@ config.json
 data/*
 *.css
 *.min.js
+dev/
+dist/
