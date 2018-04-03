@@ -9,8 +9,6 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 
-<script type="text/javascript" src="/static/js/main.min.js"></script>
-
 <title>{username} - _(SCII Achievements)</title>
 </head>
 <body>
@@ -31,7 +29,7 @@
             <div id="points_categories" class="list"></div>
         </div>
     </div>
-    <div id="loading">LOADING</div>
+    <div id="loader"></div>
     <div id="achievements_container">
         <div id="achievement_controls" class="hidden">
             <input id="filter" type="text" placeholder="_(search)"/>
@@ -51,11 +49,7 @@
     <div><pre id="debug"></pre></div>
 
     <footer>
-        <div class="footer-links">
-            <a href="https://beatonma.org/sc2am">About</a>
-            <a href="https://github.com/beatonma/sc2am">Source</a>
-        </div>
-        <div id="sc_copyright">©1998 Blizzard Entertainment, Inc. All rights reserved. StarCraft and Blizzard Entertainment are trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.</div>
+        <!--=include ../fragments/footer.html -->
     </footer>
 
     <div id="error"><span class="message">This is an error message</span> <span class="button">_(Dismiss)</span></div>
@@ -69,6 +63,7 @@
             region: {region},
         };
     </script>
+    <script type="text/javascript" src="/static/js/main.min.js"></script>
     <script type="text/javascript" src="/static/js/profile.min.js"></script>
 </body>
 </html>
