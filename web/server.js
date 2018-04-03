@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const config = require('../config');
+const config = require('./config');
 const sc2 = require('./bnet').api;
 const templates = require('./templates');
 const _ = require('./translation').translate;

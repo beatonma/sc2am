@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const config = require('../../config');
+const config = require('../config');
 const request = require('request');
 const i18n = require('i18n');
 const achievementUtil = require('./achievement-util.js');

@@ -1,6 +1,6 @@
 const http = require('http');
 const querystring = require('querystring');
-const port = require('../config').port;
+const port = require('./config').port;
 const fs = require('fs');
 const path = require('path');
 const app = require('./server.js');
