@@ -10,7 +10,9 @@ try {
 }
 catch (err) {
     Object.assign(module.exports, {
-        api_key: process.env.BATTLENET_KEY,
+        api_key: process.env.BATTLENET_KEY, // deprecated
+        client_id: process.env.BATTLENET_CLIENT_ID,
+        client_secret: process.env.BATTLENT_CLIENT_SECRET,
         cache_refresh_rate: process.env.CACHE_REFRESH_RATE || 86400,
         debug: process.env.DEBUG || false,
         port: process.env.PORT || 9876,
